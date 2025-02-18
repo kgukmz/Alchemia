@@ -34,7 +34,7 @@ getgenv().directRequire = function(Path)
     local RequestBody = DirectoryRequest.Body
 
     if (string.split(Path, ".")[2] == "json") then
-        RequestBody = HttpService:JSONDecode(DirectoryRequest.Body)
+        RequestBody = GetService("HttpService"):JSONDecode(DirectoryRequest.Body)
     end
 
     local CachedModule = loadstring(RequestBody, "...")()
@@ -67,7 +67,6 @@ SafeDirectRequire("Files/Setup.lua")
 print(GameList)
 
 local Players = GetService("Players")
-local HttpService = GetService("HttpService")
 
 local LocalPlayer = Players.LocalPlayer
 
