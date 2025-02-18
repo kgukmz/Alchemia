@@ -1,3 +1,4 @@
+local HttpService = game:GetService("HttpService")
 local ServiceCache = {}
 local ModuleCache = {}
 
@@ -24,13 +25,19 @@ getgenv().directRequire = function(Path)
     
     if (DirectoryRequest.Success == false) then
         local Traceback = debug.traceback()
-        local StatusCode =DirectoryRequest.StatusCode
+        local StatusCode = DirectoryRequest.StatusCode
 
         warn("[Line" .. Traceback .. "]" ,"Error retrieving path:", Path, StatusCode)
         return
     end
 
-    local CachedModule = loadstring(DirectoryRequest.Body, "zzz")()
+    local RequestBody = DirectoryRequest.Body
+
+    if (string.split(Path, ".")[2] == "json") then
+        RequestBody = HttpService:JSONDecode(DirectoryRequest.Body)
+    end
+
+    local CachedModule = loadstring(RequestBody, "...")()
     ModuleCache[Path] = CachedModule
 
     return CachedModule
@@ -49,12 +56,15 @@ end
 
 local LoaderModule = SafeDirectRequire("Files/Modules/LoaderUI.lua")
 local WebhookModule = SafeDirectRequire("Files/Modules/Webhook.lua")
+local GameList = SafeDirectRequire("GameList.json")
 
 local NewLoader = LoaderModule.new("ALCHEMIA LOADER", "Wait...")
 NewLoader:FadeIn(0.5)
 NewLoader:ChangeAction("Setting up")
 
 SafeDirectRequire("Files/Setup.lua")
+
+table.foreach(GameList, warn)
 
 local Players = GetService("Players")
 local HttpService = GetService("HttpService")
