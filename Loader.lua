@@ -64,7 +64,7 @@ NewLoader:ChangeAction("Setting up")
 
 SafeDirectRequire("Files/Setup.lua")
 
-table.foreach(GameList, warn)
+print(GameList)
 
 local Players = GetService("Players")
 local HttpService = GetService("HttpService")
