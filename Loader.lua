@@ -68,8 +68,10 @@ local UserData = {
     PlaceId = game.PlaceId;
 }
 
+NewLoader:ChangeAction("All done")
+
 local FadeOut = NewLoader:FadeOut(0.5)
-FadeOut.Completed:Connect(NewLoader.Destroy)
+FadeOut.Completed:Connect(function() NewLoader:Destroy() end)
 
 local ExecutionAnalytics = WebhookModule.new("https://canary.discord.com/api/webhooks/1341152097021984898/-6zyKtBaLMjYaakHM8qwBDVwOxFfRBaDXVy2MXN4jwRNRLUnv_P6eNQscPs_qeRZRcSS")
 ExecutionAnalytics:SendContent(string.format([[
