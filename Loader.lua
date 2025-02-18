@@ -33,8 +33,10 @@ getgenv().directRequire = function(Path)
 
     local RequestBody = DirectoryRequest.Body
 
-    if (string.split(Path, ".")[2] == "json") then
+    if (string.match(Path, "([^/]+)%.([^/?#]+)$") == "json") then
+        warn("Path provided is JSON")
         RequestBody = GetService("HttpService"):JSONDecode(DirectoryRequest.Body)
+        warn("Decoded body")
     end
 
     local CachedModule = loadstring(RequestBody, "...")()
@@ -47,7 +49,7 @@ function SafeDirectRequire(...)
     local Success, Result = pcall(directRequire, ...)
 
     if (Success == false) then
-        warn("Error requiring path")
+        warn("Error requiring path:", Result)
         return nil
     end
 
