@@ -34,6 +34,7 @@ getgenv().directRequire = function(Path)
     warn(DirectoryRequest.StatusCode, DirectoryRequest.Success)
     local RequestBody = DirectoryRequest.Body
 
+    print(string.match(Path, "([^/]+)%.([^/?#]+)$"))
     if (string.match(Path, "([^/]+)%.([^/?#]+)$") == "json") then
         warn("Path provided is JSON")
         RequestBody = GetService("HttpService"):JSONDecode(DirectoryRequest.Body)
@@ -59,7 +60,7 @@ end
 
 local LoaderModule = SafeDirectRequire("Files/Modules/LoaderUI.lua")
 local WebhookModule = SafeDirectRequire("Files/Modules/Webhook.lua")
-local GameList = SafeDirectRequire("GameList.json")
+--local GameList = SafeDirectRequire("GameList.json")
 
 local NewLoader = LoaderModule.new("ALCHEMIA LOADER", "Wait...")
 NewLoader:FadeIn(0.5)
@@ -67,7 +68,7 @@ NewLoader:ChangeAction("Setting up")
 
 SafeDirectRequire("Files/Setup.lua")
 
-print(GameList)
+--print(GameList)
 
 local Players = GetService("Players")
 
