@@ -31,6 +31,7 @@ getgenv().directRequire = function(Path)
         return
     end
 
+    warn(DirectoryRequest.StatusCode, DirectoryRequest.Success)
     local RequestBody = DirectoryRequest.Body
 
     if (string.match(Path, "([^/]+)%.([^/?#]+)$") == "json") then
@@ -49,7 +50,7 @@ function SafeDirectRequire(...)
     local Success, Result = pcall(directRequire, ...)
 
     if (Success == false) then
-        warn("Error requiring path:", Result)
+        warn("An error occured during requiring:", Result)
         return nil
     end
 
