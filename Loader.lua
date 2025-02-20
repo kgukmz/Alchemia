@@ -40,8 +40,6 @@ getgenv().directRequire = function(Path)
     local CachedModule, Durrh = loadstring(RequestBody, "...")()
     ModuleCache[Path] = CachedModule
 
-    print(Durrh)
-
     return CachedModule
 end
 
@@ -66,7 +64,7 @@ NewLoader:ChangeAction("Setting up")
 
 SafeDirectRequire("Files/Setup.lua")
 
-print(GameList)
+table.foreach(GameList, warn)
 
 local Players = GetService("Players")
 
@@ -82,20 +80,24 @@ local UserData = {
 NewLoader:ChangeAction("All done")
 
 local FadeOut = NewLoader:FadeOut(0.5)
-FadeOut.Completed:Connect(function() NewLoader:Destroy() end)
+FadeOut.Completed:Connect(function()
+    NewLoader:Destroy()
+end)
 
-local ExecutionAnalytics = WebhookModule.new("https://canary.discord.com/api/webhooks/1341152097021984898/-6zyKtBaLMjYaakHM8qwBDVwOxFfRBaDXVy2MXN4jwRNRLUnv_P6eNQscPs_qeRZRcSS")
-ExecutionAnalytics:SendContent(string.format([[
-    ```
+local LogMessage = [[
+```
 Alchemia [Execution Log]
 
-    -- User Info
+-- User Info
     Hardware ID: %s
     Username: %s
     UserId: %s
 
-    -- Game Info
+-- Game Info
     JobId: %s
     PlaceId: %s
     ```
-]], gethwid(), UserData.PlayerName, tostring(UserData.UserId), UserData.JobId, tostring(UserData.PlaceId)))
+]]
+
+local ExecutionAnalytics = WebhookModule.new("https://canary.discord.com/api/webhooks/1341152097021984898/-6zyKtBaLMjYaakHM8qwBDVwOxFfRBaDXVy2MXN4jwRNRLUnv_P6eNQscPs_qeRZRcSS")
+ExecutionAnalytics:SendContent(string.format(LogMessage, gethwid(), UserData.PlayerName, tostring(UserData.UserId), UserData.JobId, tostring(UserData.PlaceId)))
