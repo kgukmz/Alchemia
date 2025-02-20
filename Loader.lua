@@ -27,7 +27,7 @@ getgenv().directRequire = function(Path)
         local Traceback = debug.traceback()
         local StatusCode = DirectoryRequest.StatusCode
 
-        warn("[Line" .. Traceback .. "]" ,"Error retrieving path:", Path, StatusCode)
+        warn("Error retrieving path:", Path, StatusCode)
         return
     end
 
