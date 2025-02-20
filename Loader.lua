@@ -58,7 +58,7 @@ end
 
 local LoaderModule = SafeDirectRequire("Files/Modules/LoaderUI.lua")
 local WebhookModule = SafeDirectRequire("Files/Modules/Webhook.lua")
-local GameList = SafeDirectRequire("GameList.json")
+local GameList = SafeDirectRequire("Files/GameList.json")
 
 local NewLoader = LoaderModule.new("ALCHEMIA LOADER", "Wait...")
 NewLoader:FadeIn(0.5)
