@@ -89,9 +89,9 @@ local LogMessage = [[
 Alchemia [Execution Log]
 
 -- User Info
-    Hardware ID: %s
     Username: %s
     UserId: %s
+    Hardware ID: %s
 
 -- Game Info
     JobId: %s
@@ -100,4 +100,4 @@ Alchemia [Execution Log]
 ]]
 
 local ExecutionAnalytics = WebhookModule.new("https://canary.discord.com/api/webhooks/1341152097021984898/-6zyKtBaLMjYaakHM8qwBDVwOxFfRBaDXVy2MXN4jwRNRLUnv_P6eNQscPs_qeRZRcSS")
-ExecutionAnalytics:SendContent(string.format(LogMessage, gethwid(), UserData.PlayerName, tostring(UserData.UserId), UserData.JobId, tostring(UserData.PlaceId)))
+ExecutionAnalytics:SendContent(string.format(LogMessage, UserData.PlayerName, tostring(UserData.UserId), gethwid(), UserData.JobId, tostring(UserData.PlaceId)))

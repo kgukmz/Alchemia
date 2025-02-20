@@ -84,7 +84,7 @@ function Loader.new(Title, Action)
         Parent = MainFrame;
     })
     
-    local Parent = gethui ~= nil and gethui() or cloneref(game:GetService("CoreGui"))
+    local Parent = gethui ~= nil and cloneref(gethui()) or cloneref(game:GetService("CoreGui"))
     self.ScreenGui.Parent = Parent
 
     return self
