@@ -1,4 +1,3 @@
-local HttpService = game:GetService("HttpService")
 local ServiceCache = {}
 local ModuleCache = {}
 
@@ -18,7 +17,7 @@ getgenv().directRequire = function(Path)
         return ModuleCache[Path]
     end
 
-    local FileExtension = string.match(Path, "([^/]+)%.([^/?#]+)$")[2]
+    local FileExtension = string.match(Path, ".+%w+%p(%w+)")
     local DirectoryRequest = http_request({
         Url = "https://raw.githubusercontent.com/kgukmz/Alchemia/refs/heads/main/" .. Path;
         Method = "GET";
@@ -35,12 +34,13 @@ getgenv().directRequire = function(Path)
     local RequestBody = DirectoryRequest.Body
 
     if (FileExtension ~= nil and FileExtension == "json") then
-        print("File is JSON")
-        RequestBody = HttpService:JSONDecode(DirectoryRequest.Body)
+        return GetService("HttpService"):JSONDecode(DirectoryRequest.Body)
     end
 
-    local CachedModule = loadstring(RequestBody, "...")()
+    local CachedModule, Durrh = loadstring(RequestBody, "...")()
     ModuleCache[Path] = CachedModule
+
+    print(Durrh)
 
     return CachedModule
 end
