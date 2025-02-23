@@ -58,6 +58,7 @@ function Main.Sections:Movement(LibraryData)
 
     local InfiniteJumpToggle = MovementSection:AddToggle({
         text = "Infinite Jump";
+        callback = Character.InfiniteJump;
         flag = "InfiniteJumpToggle";
     })
 

@@ -13,28 +13,6 @@ AddTab(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", "Main.lua"))
 
 function Menu:Setup(Library)
     self.Library = Library
-    
-    --[[
-    local OldHook = nil
-    OldHook = hookmetamethod(game, "__newindex", function(self, ...)
-        local Index = select(1, ...)
-        local Value = select(2, ...)
-    
-        if (checkcaller() ~= true) then
-            if (self:IsA("Humanoid" == true) and not self.Parent == nil) then
-                if (Index == "WalkSpeed" and Library.flags["WalkSpeedToggle"] == true) then
-                    return Value
-                end
-    
-                if (Index == "JumpHeight" and Library.flags["JumpHeightToggle"] == true) then
-                    return Value
-                end
-            end
-        end
-    
-        return OldHook(self, ...)
-    end)
-    --]]
 
     for i, Tab in self.Tabs do
         local Success, Error = pcall(Tab.Init, Tab, Library, i)
