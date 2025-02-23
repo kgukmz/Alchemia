@@ -79,7 +79,7 @@ local UserData = {
 }
 
 table.foreach(GameList, print)
-local GameName = GameList[PlaceId]
+local GameName = GameList[tostring(PlaceId)]
 
 warn(GameName)
 
