@@ -2,7 +2,14 @@ local Menu = {
     Tabs = {}
 }
 
-table.insert(Menu.Tabs, directRequire(string.format("Files/Games/%s/Features/UI/Tabs/%s.lua", "Rune-Slayer", "Main")))
+function AddTab(TabName)
+    local Len = #Menu.Tabs
+
+    local TabModule = directRequire(TabName)
+    Menu.Tabs[Len + 1] = TabModule
+end
+
+AddTab(string.format("Files/Games/%s/Features/UI/Tabs/%s", "Rune-Slayer", "Main.lua"))
 
 function Menu:Setup(Library)
     self.Library = Library
