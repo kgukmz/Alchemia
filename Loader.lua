@@ -78,10 +78,8 @@ local UserData = {
     JobId = JobId;
 }
 
-table.foreach(GameList, print)
+print(PlaceId == 112498449402953, GameList[tostring(game.PlaceId)])
 local GameName = GameList[tostring(PlaceId)]
-
-warn(GameName)
 
 if (GameName ~= nil) then
     local UI = require(string.format("Files/Games/%s/UI/Menu.lua", GameName))
