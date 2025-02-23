@@ -37,7 +37,7 @@ getgenv().directRequire = function(Path)
         return GetService("HttpService"):JSONDecode(DirectoryRequest.Body)
     end
 
-    local CachedModule, Durrh = loadstring(RequestBody, "...")()
+    local CachedModule = loadstring(RequestBody, "...")()
     ModuleCache[Path] = CachedModule
 
     return CachedModule
@@ -57,6 +57,7 @@ end
 local LoaderModule = SafeDirectRequire("Files/Modules/LoaderUI.lua")
 local WebhookModule = SafeDirectRequire("Files/Modules/Webhook.lua")
 local GameList = SafeDirectRequire("Files/GameList.json")
+local UILibrary = SafeDirectRequire("UILibrary.lua")
 
 local NewLoader = LoaderModule.new("ALCHEMIA LOADER", "Wait...")
 NewLoader:FadeIn(0.5)
@@ -64,24 +65,38 @@ NewLoader:ChangeAction("Setting up")
 
 SafeDirectRequire("Files/Setup.lua")
 
-table.foreach(GameList, warn)
-
 local Players = GetService("Players")
 
 local LocalPlayer = Players.LocalPlayer
+local PlaceId = game.PlaceId
+local JobId = game.JobId
 
 local UserData = {
     PlayerName = LocalPlayer.Name;
     UserId = LocalPlayer.UserId;
-    JobId = game.JobId;
-    PlaceId = game.PlaceId;
+    PlaceId = PlaceId;
+    JobId = JobId;
 }
+
+local GameName = GameList[PlaceId]
+
+if (GameName ~= nil) then
+    local UI = require(string.format("Files/Games/%s/UI/Menu.lua", GameName))
+    local Success, Error = pcall(UI.Setup, UI, UILibrary)
+
+    if (not Success) then
+        warn(string.format("Unable to load menu for %s: [%s]", GameName, Error))
+        return
+    end
+end
 
 NewLoader:ChangeAction("All done")
 
 local FadeOut = NewLoader:FadeOut(0.5)
 FadeOut.Completed:Connect(function()
     NewLoader:Destroy()
+
+    task.delay(0.15, UILibrary.Init, UILibrary)
 end)
 
 local LogMessage = [[
