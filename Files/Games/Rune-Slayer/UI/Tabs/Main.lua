@@ -56,9 +56,6 @@ end
 
 function Main.Sections:Waypoints(LibraryData)
     local Columns = unpack(LibraryData.Columns)
-
-    table.foreach(Columns, warn)
-
     local LeftColumn = select(1, Columns)
     local RightColumn = select(2, Columns)
 
@@ -97,6 +94,10 @@ function Main:Init(Library, TabIndex)
 
     for i = 1, 2 do
         table.insert(LibraryData.Columns, MainTab:AddColumn())
+    end
+
+    for i,v in next, LibraryData.Columns do
+        print(i, v)
     end
 
     for Section, Func in next, self.Sections do
