@@ -25,14 +25,17 @@ function Character.ChangeWalkSpeed(State)
         return
     end
 
+    local Character = LocalPlayer.Character
+    local Humanoid = Character:FindFirstChild("Humanoid")
+
     repeat
-        local Character = LocalPlayer.Character
+        Character = LocalPlayer.Character
 
         if (Character == nil) then
             continue
         end
 
-        local Humanoid = Character:FindFirstChild("Humanoid")
+        Humanoid = Character:FindFirstChild("Humanoid")
         
         if (Humanoid == nil) then
             continue
@@ -42,14 +45,6 @@ function Character.ChangeWalkSpeed(State)
 
         task.wait(0.1)
     until Library.flags["WalkSpeedToggle"] == false
-
-    local Character = LocalPlayer.Character
-    
-    if (Character == nil) then
-        return
-    end
-
-    local Humanoid = Character:FindFirstChild("Humanoid")
 
     if (Humanoid == nil) then
         return
@@ -84,9 +79,11 @@ function Character.ChangeJumpHeight(State)
         task.wait(0.1)
     until Library.flags["JumpHeightToggle"] == false
 
-    if (Humanoid ~= nil) then
-        Humanoid.JumpHeight = 6
+    if (Humanoid == nil) then
+        return
     end
+    
+    Humanoid.JumpHeight = 6
 end
 
 function Character.NoClip(State)

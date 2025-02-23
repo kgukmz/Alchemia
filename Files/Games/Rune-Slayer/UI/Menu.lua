@@ -20,7 +20,7 @@ function Menu:Setup(Library)
         local Value = select(2, ...)
     
         if (checkcaller() ~= true) then
-            if (self:IsA("Humanoid" == true)) then
+            if (self:IsA("Humanoid" == true) and not self.Parent == nil) then
                 if (Index == "WalkSpeed" and Library.flags["WalkSpeedToggle"] == true) then
                     return Value
                 end
