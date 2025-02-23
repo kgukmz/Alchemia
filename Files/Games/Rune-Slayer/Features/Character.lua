@@ -152,8 +152,12 @@ function Character.NoFallDamage(State)
             end
             
             for i, v in next, Character:GetChildren() do
-                if (v.Name == "NoFall" and CollectionService:HasTag(v, ".")) then
-                    return
+                if (v.Name ~= "NoFall") then
+                    continue
+                end
+
+                if (CollectionService:HasTag(v, ".") == true) then
+                    continue
                 end
 
                 local Makeshift = Instance.new("Accessory")
