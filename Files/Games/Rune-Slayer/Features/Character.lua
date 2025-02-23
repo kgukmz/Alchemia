@@ -16,7 +16,7 @@ local BodyParts = {
     "HumanoidRootPart";
 }
 
-local NoClipConnection = ConnectionModule.new(RunService.Heartbeat)
+local NoClipConnection = ConnectionModule.new(RunService.Stepped)
 
 function CharacterM.NoClip(State)
     if (State == true) then
