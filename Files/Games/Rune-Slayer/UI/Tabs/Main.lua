@@ -2,18 +2,39 @@ local Main = {
     Sections = {};
 }
 
-function Main.Sections:Removals(LibraryData)
+function AddPlaceSpecific(PlaceId, Callback)
+    local CurrentPlaceId = game.PlaceId
+
+    if (PlaceId ~= CurrentPlaceId) then
+        return
+    end
+
+    Callback()
+end
+
+function Main.Sections:Client(LibraryData)
     local Columns = unpack(LibraryData.Columns)
     local LeftColumn = select(1, Columns)
     local RightColumn = select(2, Columns)
-    
-    local RemovalSection = LeftColumn:AddSection("Removals")
+
+    local RemovalSection = LeftColumn:AddSection("Client")
 
     RemovalSection:AddToggle({
         text = "Enable Temperature Lock";
+        tip = "Enable it in the area you want to keep your temperature in";
     })
-end
 
+    RemovalSection:AddButton({
+        text = "Reset Character";
+    })
+
+    AddPlaceSpecific(112498449402953, function()
+        RemovalSection:AddButton({
+            text = "Skip Tutorial";
+            tip = "Skips tutorial";
+        })
+    end)
+end
 
 function Main:Init(Library, TabIndex)
     local MainTab = Library:AddTab("Main", TabIndex)
