@@ -20,16 +20,20 @@ task.defer(function()
     AreaChangeEvent = AreaChangeRemote
 end)
 
-function Utility:TemperatureLock(...)
-    table.foreach({...}, warn)
-    
+function Utility.TemperatureLock(State)
     if AreaChangeEvent == nil then
         warn("CANNOT FIND AREA CHANGE EVENT")
         return
     end
+
+    if (State == true) then
+        AreaChangeEvent.Name = "Area Change Event"
+    else
+        AreaChangeEvent.Name = "AreaChangeEvent"
+    end
 end
 
-function Utility:ResetCharacter()
+function Utility.ResetCharacter()
     local Character = LocalPlayer.Character
 
     if (Character == nil) then
