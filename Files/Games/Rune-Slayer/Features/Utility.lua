@@ -17,18 +17,16 @@ task.defer(function()
         task.wait()
     until CurrentArea ~= nil and AreaChangeEvent ~= nil
 
-    print("FOUND")
     AreaChangeEvent = AreaChangeRemote
-    print(AreaChangeRemote, AreaChangeEvent)
 end)
 
 function Utility:TemperatureLock(...)
+    table.foreach({...}, warn)
+    
     if AreaChangeEvent == nil then
         warn("CANNOT FIND AREA CHANGE EVENT")
         return
     end
-    
-    table.foreach({...}, warn)
 end
 
 function Utility:ResetCharacter()
