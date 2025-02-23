@@ -29,6 +29,7 @@ function Utility:TemperatureLock(State)
     end
     
     print("Exists")
+    print(State)
 
     if (State == true) then
         AreaChangeEvent.Name = ""
