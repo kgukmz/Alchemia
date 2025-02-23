@@ -2,6 +2,13 @@ local Main = {
     Sections = {};
 }
 
+function GetFeatureModule(Path)
+    local ModulePath = directRequire("Files/Games/%s/Features/%s", "Rune-Slayer", Path)
+    return ModulePath
+end
+
+local Utility = GetFeatureModule("Utility.lua")
+
 function AddPlaceSpecific(PlaceId, Callback)
     local CurrentPlaceId = game.PlaceId
 
@@ -22,12 +29,14 @@ function Main.Sections:Client(LibraryData)
     RemovalSection:AddToggle({
         text = "Enable Temperature Lock";
         tip = "Enable it in the area you want to keep your temperature in [MAY CAUSE PERFORMANCE ISSUES OVER EXTENDED PERIODS OF USE]";
+        callback = Utility.TemperatureLock;
     })
 
     AddPlaceSpecific(112498449402953, function()
         RemovalSection:AddButton({
             text = "Skip Tutorial";
             tip = "Automatically skip tutorial";
+            callback = Utility.ResetCharacter;
         })
     end)
 
@@ -41,6 +50,7 @@ function Main.Sections:Client(LibraryData)
 
     RemovalSection:AddButton({
         text = "Reset Character";
+        callback = Utility.ResetCharacter;
     })
 end
 
