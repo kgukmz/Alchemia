@@ -2,12 +2,12 @@ local Main = {
     Sections = {};
 }
 
-function GetFeatureModule(Path)
+function GetFeature(Path)
     local ModulePath = directRequire(string.format("Files/Games/%s/Features/%s", "Rune-Slayer", Path))
     return ModulePath
 end
 
-local Utility = GetFeatureModule("Utility.lua")
+local Utility = GetFeature("Utility.lua")
 
 function AddPlaceSpecific(PlaceId, Callback)
     local CurrentPlaceId = game.PlaceId
@@ -40,7 +40,7 @@ function Main.Sections:Client(LibraryData)
         })
     end)
 
-    RemovalSection:AddDivider({text = ""})
+    RemovalSection:AddDivider({text = "_"})
 
     RemovalSection:AddToggle({
         text = "Ignore Danger";

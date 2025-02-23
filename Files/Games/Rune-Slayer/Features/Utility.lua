@@ -8,7 +8,7 @@ local AreaChangeEvent = nil
 
 task.defer(function()
     local CurrentArea = LocalPlayer:FindFirstChild("CurrentArea")
-    local AreaChangeEvent = CurrentArea:FindFirstChild("AreaChangeEvent")
+    local AreaChangeRemote = CurrentArea:FindFirstChild("AreaChangeEvent")
 
     repeat
         task.wait()
@@ -16,6 +16,8 @@ task.defer(function()
         CurrentArea = LocalPlayer:FindFirstChild("CurrentArea")
         AreaChangeEvent = CurrentArea:FindFirstChild("AreaChangeEvent")
     until CurrentArea ~= nil and AreaChangeEvent ~= nil
+
+    AreaChangeEvent = AreaChangeRemote 
 end)
 
 function Utility:TemperatureLock(State)
