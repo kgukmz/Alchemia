@@ -7,10 +7,6 @@ function GetFeature(Path)
     return ModulePath
 end
 
-function AddSection(Name, Callback)
-    table.insert(Main.Sections, Callback)
-end
-
 function AddPlaceSpecific(PlaceId, Callback)
     local CurrentPlaceId = game.PlaceId
 
@@ -67,7 +63,7 @@ function Main.Sections:Client(LibraryData)
         text = "Enable No Clip";
         callback = Character.NoClip;
     })
-    
+
     RemovalSection:AddToggle({
         text = "Enable Temperature Lock";
         tip = "Enable it in the area you want to keep your temperature in [MAY CAUSE PERFORMANCE ISSUES OVER EXTENDED PERIODS OF USE]";

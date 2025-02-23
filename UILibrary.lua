@@ -990,7 +990,7 @@ do -- // Load
 
                     if option.mode == 'toggle' then
                         library.flags[option.flag] = not library.flags[option.flag]
-                        option.callback(library.flags[option.flag], 0)
+                        option.callback(option, library.flags[option.flag], 0)
                     else
                         library.flags[option.flag] = true
 

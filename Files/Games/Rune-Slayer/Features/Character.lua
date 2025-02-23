@@ -5,7 +5,7 @@ local RunService = GetService("RunService")
 
 local LocalPlayer = Players.LocalPlayer
 
-function CharacterM.NoClip(a, b, c)
+function CharacterM:NoClip(a, b, c)
     print(a, b, c)
     
 end
