@@ -6,6 +6,7 @@ local Players = GetService("Players")
 local RunService = GetService("RunService")
 local CollectionService = GetService("CollectionService")
 local UserInputService = GetService("UserInputService")
+local ReplicatedStorage = GetService("ReplicatedStorage")
 
 local LocalPlayer = Players.LocalPlayer
 local IsTextboxFocused = false
@@ -19,8 +20,11 @@ local BodyParts = {
     "HumanoidRootPart";
 }
 
+local Network = require(ReplicatedStorage.Modules.Network)
+
 local NoClipConnection = ConnectionModule.new(RunService.Stepped)
 local NoFallConnection = ConnectionModule.new(RunService.Heartbeat)
+local GodModeConnection = ConnectionModule.new(RunService.Heartbeat)
 
 UserInputService.TextBoxFocused:Connect(function()
     IsTextboxFocused = true;
@@ -202,6 +206,27 @@ function Character.InfiniteJump(State)
             HumanoidRootPart.Velocity = Vector3.new(RootVelocity.X, JumpVelocity, RootVelocity.Z)
         end
     until Library.flags["InfiniteJumpToggle"] == false
+end
+
+function Character.GodMode(State)
+    if (State == true) then
+        GodModeConnection:Connect(function()
+            local Character = LocalPlayer.Character
+
+            if (Character == nil) then
+                return
+            end
+
+            Network.connect("MasterEvent", "FireServer", Character, {
+                Config = "Roll";
+            })
+            Network.connect("MasterEvent", "FireServer", Character, {
+                Config = "RollCancel";
+            })
+        end)
+    else
+        GodModeConnection:Disconnect()
+    end
 end
 
 return Character

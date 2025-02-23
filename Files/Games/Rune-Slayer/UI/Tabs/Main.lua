@@ -29,7 +29,7 @@ function Main.Sections:Movement(LibraryData)
     local MovementSection = LeftColumn:AddSection("Movement")
 
     local WalkSpeedToggle = MovementSection:AddToggle({
-        text = "Walkspeed";
+        text = "Walk Speed";
         callback = Character.ChangeWalkSpeed;
         flag = "WalkSpeedToggle";
     })
@@ -96,6 +96,12 @@ function Main.Sections:Client(LibraryData)
         tip = "Enable it in the area you want to keep your temperature in [MAY CAUSE PERFORMANCE ISSUES OVER EXTENDED PERIODS OF USE]";
         callback = Utility.TemperatureLock;
         flag = "TemperatureLockToggle";
+    })
+
+    RemovalSection:AddToggle({
+        text = "Enable God Mode";
+        tip = "[WARNING] This feature is very blatant, it may also cause FPS issues";
+        callback = Character.GodMode;
     })
 
     AddPlaceSpecific(112498449402953, function()
