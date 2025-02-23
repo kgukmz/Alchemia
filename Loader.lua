@@ -80,6 +80,8 @@ local UserData = {
 
 local GameName = GameList[PlaceId]
 
+warn(GameName)
+
 if (GameName ~= nil) then
     local UI = require(string.format("Files/Games/%s/UI/Menu.lua", GameName))
     local Success, Error = pcall(UI.Setup, UI, UILibrary)
@@ -87,6 +89,9 @@ if (GameName ~= nil) then
     if (not Success) then
         warn(string.format("Unable to load menu for %s: [%s]", GameName, Error))
         return
+    else
+        print("Yo")
+        NewLoader:ChangeAction("Loading")
     end
 end
 
