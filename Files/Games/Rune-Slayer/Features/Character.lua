@@ -13,7 +13,7 @@ local BodyParts = {
     "Right Arm";
     "Torso";
     "Head";
-    --"HumanoidRootPart";
+    "HumanoidRootPart";
 }
 
 local NoClipConnection = ConnectionModule.new(RunService.Heartbeat)
