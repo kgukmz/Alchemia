@@ -57,7 +57,7 @@ end
 function Main.Sections:Waypoints(LibraryData)
     local Columns = unpack(LibraryData.Columns)
 
-    print(Columns)
+    table.foreach(Columns, warn)
 
     local LeftColumn = select(1, Columns)
     local RightColumn = select(2, Columns)
