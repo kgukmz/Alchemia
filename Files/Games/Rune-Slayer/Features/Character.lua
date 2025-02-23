@@ -25,6 +25,8 @@ local Network = require(ReplicatedStorage.Modules.Network)
 local NoClipConnection = ConnectionModule.new(RunService.Stepped)
 local NoFallConnection = ConnectionModule.new(RunService.Heartbeat)
 local GodModeConnection = ConnectionModule.new(RunService.Heartbeat)
+local WalkSpeedConnection = ConnectionModule.new(RunService.Heartbeat)
+local JumpHeightConnection = ConnectionModule.new(RunService.Heartbeat)
 
 UserInputService.TextBoxFocused:Connect(function()
     IsTextboxFocused = true;
@@ -35,69 +37,73 @@ UserInputService.TextBoxFocusReleased:Connect(function()
 end)
 
 function Character.ChangeWalkSpeed(State)
-    if (State == false) then
-        return
-    end
+    if (State == true) then
+        WalkSpeedConnection:Connect(function()
+            local Character = LocalPlayer.Character
 
-    local Character = LocalPlayer.Character
-    local Humanoid = Character:FindFirstChild("Humanoid")
+            if (Character == nil) then
+                return
+            end
 
-    repeat
-        Character = LocalPlayer.Character
+            local Humanoid = Character:FindFirstChild("Humanoid")
+
+            if (Humanoid == nil) then
+                return
+            end
+
+            Humanoid.WalkSpeed = Library.flags["WalkSpeedSlider"]
+        end)
+    else
+        local Character = LocalPlayer.Character
 
         if (Character == nil) then
-            continue
+            return
         end
 
-        Humanoid = Character:FindFirstChild("Humanoid")
-        
+        local Humanoid = Character:FindFirstChild("Humanoid")
+
         if (Humanoid == nil) then
-            continue
+            return
         end
 
-        Humanoid.WalkSpeed = Library.flags["WalkSpeedSlider"]
-
-        task.wait(0.1)
-    until Library.flags["WalkSpeedToggle"] == false
-
-    if (Humanoid == nil) then
-        return
+        WalkSpeedConnection:Disconnect()
+        Humanoid.WalkSpeed = 16
     end
-    
-    Humanoid.WalkSpeed = 16
 end
 
 function Character.ChangeJumpHeight(State)
-    if (State == false) then
-        return
-    end
+    if (State == true) then
+        WalkSpeedConnection:Connect(function()
+            local Character = LocalPlayer.Character
 
-    local Character = LocalPlayer.Character
-    local Humanoid = Character:FindFirstChild("Humanoid")
+            if (Character == nil) then
+                return
+            end
 
-    repeat
-        Character = LocalPlayer.Character
+            local Humanoid = Character:FindFirstChild("Humanoid")
+
+            if (Humanoid == nil) then
+                return
+            end
+
+            Humanoid.JumpHeight = Library.flags["JumpHeightSlider"]
+        end)
+    else
+        local Character = LocalPlayer.Character
 
         if (Character == nil) then
-            continue
+            return
         end
 
-        Humanoid = Character:FindFirstChild("Humanoid")
-        
+        local Humanoid = Character:FindFirstChild("Humanoid")
+
         if (Humanoid == nil) then
-            continue
+            return
         end
 
-        Humanoid.JumpHeight = Library.flags["JumpHeightSlider"]
-
-        task.wait(0.1)
-    until Library.flags["JumpHeightToggle"] == false
-
-    if (Humanoid == nil) then
-        return
+        WalkSpeedConnection:Disconnect()
+        Humanoid.WalkSpeed = 16
     end
-    
-    Humanoid.JumpHeight = 6
 end
 
 function Character.NoClip(State)
