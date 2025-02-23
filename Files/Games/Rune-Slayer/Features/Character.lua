@@ -151,21 +151,15 @@ function Character.NoFallDamage(State)
                 return
             end
             
-            for i, v in next, Character:GetChildren() do
-                if (v.Name ~= "NoFall") then
-                    continue
-                end
+            local NoFall = Character:FindFirstChild("NoFall")
 
-                if (CollectionService:HasTag(v, ".") == true) then
-                    continue
-                end
-
-                local Makeshift = Instance.new("Accessory")
-                CollectionService:AddTag(Makeshift, ".")
-                
-                Makeshift.Name = "NoFall"
-                Makeshift.Parent = Character
+            if (NoFall ~= nil and CollectionService:HasTag(NoFall, ".")) then
+                return
             end
+
+            local Makeshift = Instance.new("Accessory")
+            Makeshift.Name = "NoFall"
+            Makeshift.Parent = Character
         end)
     else
         NoFallConnection:Disconnect()
