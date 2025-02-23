@@ -22,8 +22,9 @@ local BodyParts = {
 
 local Network = require(ReplicatedStorage.Modules.Network)
 
+local FakeNoFall = nil;
+
 local NoClipConnection = ConnectionModule.new(RunService.Stepped)
-local NoFallConnection = ConnectionModule.new(RunService.Heartbeat)
 local GodModeConnection = ConnectionModule.new(RunService.Heartbeat)
 local WalkSpeedConnection = ConnectionModule.new(RunService.Heartbeat)
 local JumpHeightConnection = ConnectionModule.new(RunService.Heartbeat)
@@ -144,42 +145,32 @@ end
 
 function Character.NoFallDamage(State)
     if (State == true) then
-        NoFallConnection:Connect(function()
-            local Character = LocalPlayer.Character
-
-            if (Character == nil) then
-                return
-            end
-            
-            local NoFall = Character:FindFirstChild("NoFall")
-
-            if (NoFall ~= nil and CollectionService:HasTag(NoFall, ".")) then
-                return
-            end
-
-            local Makeshift = Instance.new("Accessory")
-            Makeshift.Name = "NoFall"
-            Makeshift.Parent = Character
-        end)
-    else
-        NoFallConnection:Disconnect()
-
-        local Character = LocalPlayer.Character
+        local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 
         if (Character == nil) then
             return
         end
 
-        for i, v in next, Character:GetChildren() do
-            if (v.Name ~= "NoFall") then
-                continue
-            end
+        FakeNoFall = Instance.new("Accessory")
+        FakeNoFall.Name = "NoFall"
+        FakeNoFall.Parent = Character
 
-            if (CollectionService:HasTag(v, ".") == false) then
-                continue
-            end
+        getgenv().duhhh = FakeNoFall:GetPropertyChangedSignal("Parent"):Connect(function(NewParent)
+            if (NewParent == nil) then
+                local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 
-            v:Destroy()
+                FakeNoFall.Parent = Character
+            end
+        end)
+    else
+        if (getgenv().duhhh ~= nil) then
+            getgenv().duhhh:Disconnect()
+            getgenv().duhhh = nil
+        end
+
+        if (FakeNoFall ~= nil) then
+            FakeNoFall:Destroy()
+            FakeNoFall = nil;
         end
     end
 end
