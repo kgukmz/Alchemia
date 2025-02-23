@@ -20,9 +20,10 @@ function AddPlaceSpecific(PlaceId, Callback)
 end
 
 function Main.Sections:Client(LibraryData)
-    local Columns = unpack(LibraryData.Columns)
-    local LeftColumn = select(1, Columns)
-    local RightColumn = select(2, Columns)
+    local Columns = LibraryData.Columns
+
+    local LeftColumn = select(1, unpack(Columns))
+    local RightColumn = select(2, unpack(Columns))
 
     local RemovalSection = LeftColumn:AddSection("Client")
 
@@ -55,9 +56,10 @@ function Main.Sections:Client(LibraryData)
 end
 
 function Main.Sections:Waypoints(LibraryData)
-    local Columns = unpack(LibraryData.Columns)
-    local LeftColumn = select(1, Columns)
-    local RightColumn = select(2, Columns)
+    local Columns = LibraryData.Columns
+
+    local LeftColumn = select(1, unpack(Columns))
+    local RightColumn = select(2, unpack(Columns))
 
     local WaypointSection = RightColumn:AddSection("Waypoints")
 
@@ -94,10 +96,6 @@ function Main:Init(Library, TabIndex)
 
     for i = 1, 2 do
         table.insert(LibraryData.Columns, MainTab:AddColumn())
-    end
-
-    for i,v in next, LibraryData.Columns do
-        print(i, v)
     end
 
     for Section, Func in next, self.Sections do
