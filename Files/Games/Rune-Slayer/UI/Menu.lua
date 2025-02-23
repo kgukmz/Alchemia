@@ -9,7 +9,7 @@ function AddTab(TabName)
     Menu.Tabs[Len + 1] = TabModule
 end
 
-AddTab(string.format("Files/Games/%s/Features/UI/Tabs/%s", "Rune-Slayer", "Main.lua"))
+AddTab(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", "Main.lua"))
 
 function Menu:Setup(Library)
     self.Library = Library
