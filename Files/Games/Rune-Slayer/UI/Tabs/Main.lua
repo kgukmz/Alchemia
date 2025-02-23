@@ -21,19 +21,27 @@ function Main.Sections:Client(LibraryData)
 
     RemovalSection:AddToggle({
         text = "Enable Temperature Lock";
-        tip = "Enable it in the area you want to keep your temperature in";
-    })
-
-    RemovalSection:AddButton({
-        text = "Reset Character";
+        tip = "Enable it in the area you want to keep your temperature in [MAY CAUSE PERFORMANCE ISSUES OVER EXTENDED PERIODS OF USE]";
     })
 
     AddPlaceSpecific(112498449402953, function()
         RemovalSection:AddButton({
             text = "Skip Tutorial";
-            tip = "Skips tutorial";
+            tip = "Automatically skip tutorial";
         })
     end)
+
+    RemovalSection:AddDivider({text = ""})
+
+    RemovalSection:AddToggle({
+        text = "Ignore Danger";
+        tip = "Ignores danger if you wish to reset";
+        flag = "IgnoreDangerToggle";
+    })
+
+    RemovalSection:AddButton({
+        text = "Reset Character";
+    })
 end
 
 function Main:Init(Library, TabIndex)
