@@ -73,7 +73,7 @@ end
 
 function Character.ChangeJumpHeight(State)
     if (State == true) then
-        WalkSpeedConnection:Connect(function()
+        JumpHeightConnection:Connect(function()
             local Character = LocalPlayer.Character
 
             if (Character == nil) then
@@ -101,8 +101,8 @@ function Character.ChangeJumpHeight(State)
             return
         end
 
-        WalkSpeedConnection:Disconnect()
-        Humanoid.WalkSpeed = 16
+        JumpHeightConnection:Disconnect()
+        Humanoid.JumpHeight = 6
     end
 end
 
@@ -153,7 +153,7 @@ function Character.NoFallDamage(State)
             
             for i, v in next, Character:GetChildren() do
                 if (v.Name == "NoFall" and CollectionService:HasTag(v, ".")) then
-                    break
+                    return
                 end
 
                 local Makeshift = Instance.new("Accessory")
