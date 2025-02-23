@@ -3,7 +3,9 @@ local Main = {
 }
 
 function Main.Sections:Removals(LibraryData)
+    print("Ok")
     local LeftColumn, RightColumn = unpack(LibraryData.Columns)
+    print(LeftColumn, RightColumn)
 
     local RemovalSection = LeftColumn:AddSection("Removals")
 
@@ -23,6 +25,8 @@ function Main:Init(Library, TabIndex)
             MainTab:AddColumn();
         };
     };
+
+    print("Ok")
 
     for Section, Func in next, self.Sections do
         local Success, Error = pcall(Func, self.Sections, LibraryData)
