@@ -92,11 +92,12 @@ function Main:Init(Library, TabIndex)
     
     local LibraryData = {
         Tab = MainTab;
-        Columns = {
-            MainTab:AddColumn();
-            MainTab:AddColumn();
-        };
+        Columns = {};
     };
+
+    for i = 1, 2 do
+        table.insert(LibraryData.Columns, MainTab:AddColumn())
+    end
 
     for Section, Func in next, self.Sections do
         local Success, Error = pcall(Func, self.Sections, LibraryData)
