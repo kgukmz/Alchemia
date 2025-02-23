@@ -56,6 +56,9 @@ end
 
 function Main.Sections:Waypoints(LibraryData)
     local Columns = unpack(LibraryData.Columns)
+
+    print(Columns)
+
     local LeftColumn = select(1, Columns)
     local RightColumn = select(2, Columns)
 
