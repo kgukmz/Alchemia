@@ -54,6 +54,36 @@ function Main.Sections:Client(LibraryData)
     })
 end
 
+function Main.Sections:Waypoints(LibraryData)
+    local Columns = unpack(LibraryData.Columns)
+    local LeftColumn = select(1, Columns)
+    local RightColumn = select(2, Columns)
+
+    local WaypointSection = RightColumn:AddSection("Waypoints")
+
+    WaypointSection:AddList({
+        text = "Waypoint List";
+    })
+
+    WaypointSection:AddBox({
+        text = "Waypoin Name";
+        tip = "Enter your new waypoint name here";
+    })
+
+    WaypointSection:AddButton({
+        text = "Teleport to Waypoint";
+    })
+
+    WaypointSection:AddButton({
+        text = "Save Waypoint";
+    })
+
+    WaypointSection:AddButton({
+        text = "Delete Waypoint";
+    })
+end
+
+
 function Main:Init(Library, TabIndex)
     local MainTab = Library:AddTab("Main", TabIndex)
     
