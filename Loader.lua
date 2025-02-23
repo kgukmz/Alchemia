@@ -81,8 +81,7 @@ local UserData = {
 local GameName = GameList[tostring(PlaceId)]
 
 if (GameName ~= nil) then
-    local MenuModule = require(string.format("Files/Games/%s/UI/Menu.lua", GameName))
-    warn(MenuModule)
+    local MenuModule = SafeDirectRequire(string.format("Files/Games/%s/UI/Menu.lua", GameName))
     local Success, Error = pcall(MenuModule.Setup, MenuModule, UILibrary)
 
     if (not Success) then
