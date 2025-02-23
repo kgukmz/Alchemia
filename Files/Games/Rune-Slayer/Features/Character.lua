@@ -156,7 +156,11 @@ function Character.NoFallDamage(State)
         FakeNoFall.Parent = Character
 
         getgenv().duhhh = FakeNoFall:GetPropertyChangedSignal("Parent"):Connect(function(NewParent)
+            print(NewParent)
+            print(FakeNoFall.Parent)
+
             if (NewParent == nil) then
+                print("Ok")
                 local Character = LocalPlayer.Character
 
                 if (Character == nil) then
