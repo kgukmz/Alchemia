@@ -26,6 +26,7 @@ local FakeNoFall = nil;
 
 local NoClipConnection = ConnectionModule.new(RunService.Stepped)
 local GodModeConnection = ConnectionModule.new(RunService.Heartbeat)
+local NoFallConnection = ConnectionModule.new(RunService.Heartbeat)
 local WalkSpeedConnection = ConnectionModule.new(RunService.Heartbeat)
 local JumpHeightConnection = ConnectionModule.new(RunService.Heartbeat)
 
@@ -155,29 +156,19 @@ function Character.NoFallDamage(State)
         FakeNoFall.Name = "NoFall"
         FakeNoFall.Parent = Character
 
-        getgenv().duhhh = FakeNoFall:GetPropertyChangedSignal("Parent"):Connect(function(NewParent)
-            print(NewParent)
-            print(FakeNoFall.Parent)
+        NoFallConnection:Connect(function()
+            local Character = LocalPlayer.Character
+    
+            if (Character == nil) then
+                return
+            end
 
-            if (NewParent == nil) then
-                print("Ok")
-                local Character = LocalPlayer.Character
-
-                if (Character == nil) then
-                    repeat
-                        task.wait()
-                        Character = LocalPlayer.Character
-                    until Character ~= nil
-                end
-
+            if (FakeNoFall.Parent ~= Character) then
                 FakeNoFall.Parent = Character
             end
         end)
     else
-        if (getgenv().duhhh ~= nil) then
-            getgenv().duhhh:Disconnect()
-            getgenv().duhhh = nil
-        end
+        NoFallConnection:Disconnect()
 
         if (FakeNoFall ~= nil) then
             FakeNoFall:Destroy()
