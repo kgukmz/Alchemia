@@ -8,6 +8,7 @@ function GetFeature(Path)
 end
 
 local Utility = GetFeature("Utility.lua")
+local Character = GetFeature("Character.lua")
 
 function AddPlaceSpecific(PlaceId, Callback)
     local CurrentPlaceId = game.PlaceId
@@ -17,6 +18,41 @@ function AddPlaceSpecific(PlaceId, Callback)
     end
 
     Callback()
+end
+
+function Main.Sections:Movement(LibraryData)
+    local Columns = LibraryData.Columns
+
+    local LeftColumn = select(1, unpack(Columns))
+    local RightColumn = select(2, unpack(Columns))
+
+    local MovementSection = LeftColumn:AddSection("Movement")
+
+    MovementSection:AddToggle({
+        text = "Speed";
+    })
+
+    MovementSection:AddToggle({
+        text = "Infinite Jump";
+    })
+
+    MovementSection:AddDivider({
+        text = "Sliders";
+    })
+
+    MovementSection:AddSlider({
+        text = 'Speed Velocity',
+        value = 0,
+        min = 0,
+        max = 125,
+    })
+
+    MovementSection:AddSlider({
+        text = 'Infinite Jump Velocity',
+        value = 0,
+        min = 0,
+        max = 125,
+    })
 end
 
 function Main.Sections:Client(LibraryData)
@@ -31,6 +67,11 @@ function Main.Sections:Client(LibraryData)
         text = "Enable Temperature Lock";
         tip = "Enable it in the area you want to keep your temperature in [MAY CAUSE PERFORMANCE ISSUES OVER EXTENDED PERIODS OF USE]";
         callback = Utility.TemperatureLock;
+    })
+
+    RemovalSection:AddToggle({
+        text = "Enable No Clip";
+        callback = Character.NoClip;
     })
 
     AddPlaceSpecific(112498449402953, function()
@@ -68,7 +109,7 @@ function Main.Sections:Waypoints(LibraryData)
     })
 
     WaypointSection:AddBox({
-        text = "Waypoin Name";
+        text = "Waypoint Name";
         tip = "Enter your new waypoint name here";
     })
 
