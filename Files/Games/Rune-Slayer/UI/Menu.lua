@@ -2,7 +2,7 @@ local Menu = {
     Tabs = {}
 }
 
-table.insert(Menu.Tabs, string.format("Files/Games/%s/Features/UI/Tabs/%s.lua", "Rune-Slayer", "Main"))
+table.insert(Menu.Tabs, directRequire(string.format("Files/Games/%s/Features/UI/Tabs/%s.lua", "Rune-Slayer", "Main")))
 
 function Menu:Setup(Library)
     self.Library = Library
@@ -12,6 +12,7 @@ function Menu:Setup(Library)
 
         if (not Success) then
             warn(string.format("Error loading tab: %s [%s]", tostring(i), Error))
+            continue
         end
 
         warn("Loaded Tab:", i)
