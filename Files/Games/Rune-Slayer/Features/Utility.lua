@@ -22,21 +22,13 @@ task.defer(function()
     print(AreaChangeRemote, AreaChangeEvent)
 end)
 
-function Utility:TemperatureLock(State, ...)
+function Utility:TemperatureLock(...)
     if AreaChangeEvent == nil then
         warn("CANNOT FIND AREA CHANGE EVENT")
         return
     end
     
-    warn(unpack({...}))
-    print("Exists")
-    print(State)
-
-    if (State == true) then
-        AreaChangeEvent.Name = ""
-    else
-        AreaChangeEvent.Name = "AreaChangeEvent"
-    end
+    table.foreach({...}, warn)
 end
 
 function Utility:ResetCharacter()
