@@ -7,8 +7,9 @@ function GetFeature(Path)
     return ModulePath
 end
 
-local Utility = GetFeature("Utility.lua")
-local Character = GetFeature("Character.lua")
+function AddSection(Name, Callback)
+    table.insert(Main.Sections, Callback)
+end
 
 function AddPlaceSpecific(PlaceId, Callback)
     local CurrentPlaceId = game.PlaceId
@@ -20,6 +21,13 @@ function AddPlaceSpecific(PlaceId, Callback)
     Callback()
 end
 
+local Utility = GetFeature("Utility.lua")
+local Character = GetFeature("Character.lua")
+
+AddSection("Lol", function(LibraryData)
+    print(LibraryData.Tab)
+end)
+--[[
 function Main.Sections:Movement(LibraryData)
     local Columns = LibraryData.Columns
 
@@ -125,7 +133,7 @@ function Main.Sections:Waypoints(LibraryData)
         text = "Delete Waypoint";
     })
 end
-
+--]]
 
 function Main:Init(Library, TabIndex)
     local MainTab = Library:AddTab("Main", TabIndex)
@@ -138,8 +146,17 @@ function Main:Init(Library, TabIndex)
     for i = 1, 2 do
         table.insert(LibraryData.Columns, MainTab:AddColumn())
     end
-
+    --[[
     for Section, Func in next, self.Sections do
+        local Success, Error = pcall(Func, self.Sections, LibraryData)
+
+        if (not Success) then
+            warn(string.format("Error loading tab %s: [%s]", Section, Error))
+        end
+    end
+    --]]
+
+    for i, Func in ipairs(self.Sections) do
         local Success, Error = pcall(Func, self.Sections, LibraryData)
 
         if (not Success) then
