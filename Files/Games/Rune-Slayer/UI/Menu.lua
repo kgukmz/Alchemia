@@ -19,14 +19,14 @@ function Menu:Setup(Library)
         local Index = select(1, ...)
         local Value = select(2, ...)
     
-        if (checkcaller() ~= true and self ~= nil) then
-            if (tostring(self) == "Humanoid") then
+        if (checkcaller() ~= true) then
+            if (self:IsA("Humanoid" == true)) then
                 if (Index == "WalkSpeed" and Library.flags["WalkSpeedToggle"] == true) then
-                    return 16
+                    return Value
                 end
     
                 if (Index == "JumpHeight" and Library.flags["JumpHeightToggle"] == true) then
-                    return 6
+                    return Value
                 end
             end
         end

@@ -4,6 +4,7 @@ local ConnectionModule = directRequire("Files/Modules/Connections.lua")
 
 local Players = GetService("Players")
 local RunService = GetService("RunService")
+local CollectionService = GetService("CollectionService")
 
 local LocalPlayer = Players.LocalPlayer
 local BodyParts = {
@@ -17,6 +18,7 @@ local BodyParts = {
 }
 
 local NoClipConnection = ConnectionModule.new(RunService.Stepped)
+local NoFallConnection = ConnectionModule.new(RunService.Heartbeat)
 
 function Character.ChangeWalkSpeed(State)
     if (State == false) then
@@ -120,6 +122,50 @@ function Character.NoClip(State)
         end
 
         Character.HumanoidRootPart.CanCollide = true
+    end
+end
+
+function Character.NoFallDamage(State)
+    if (State == true) then
+        NoFallConnection:Connect(function()
+            local Character = LocalPlayer.Character
+
+            if (Character == nil) then
+                return
+            end
+            
+            for i, v in next, Character:GetChildren() do
+                if (v.Name == "NoFall" and CollectionService:HasTag(v, ".")) then
+                    break
+                end
+
+                local Makeshift = Instance.new("Accessory")
+                CollectionService:AddTag(Makeshift, ".")
+                
+                Makeshift.Name = "NoFall"
+                Makeshift.Parent = Character
+            end
+        end)
+    else
+        NoFallConnection:Disconnect()
+
+        local Character = LocalPlayer.Character
+
+        if (Character == nil) then
+            return
+        end
+
+        for i, v in next, Character:GetChildren() do
+            if (v.Name ~= "NoFall") then
+                continue
+            end
+
+            if (CollectionService:HasTag(v, ".") == false) then
+                continue
+            end
+
+            v:Destroy()
+        end
     end
 end
 
