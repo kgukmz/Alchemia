@@ -11,13 +11,15 @@ task.defer(function()
     local AreaChangeRemote = CurrentArea:FindFirstChild("AreaChangeEvent")
 
     repeat
-        task.wait()
-        
         CurrentArea = LocalPlayer:FindFirstChild("CurrentArea")
         AreaChangeEvent = CurrentArea:FindFirstChild("AreaChangeEvent")
+
+        task.wait()
     until CurrentArea ~= nil and AreaChangeEvent ~= nil
 
-    AreaChangeEvent = AreaChangeRemote 
+    print("FOUND")
+    AreaChangeEvent = AreaChangeRemote
+    print(AreaChangeRemote, AreaChangeEvent)
 end)
 
 function Utility:TemperatureLock(State)
@@ -26,6 +28,8 @@ function Utility:TemperatureLock(State)
         return
     end
     
+    print("Exists")
+
     if (State == true) then
         AreaChangeEvent.Name = ""
     else
