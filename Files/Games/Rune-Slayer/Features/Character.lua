@@ -157,7 +157,14 @@ function Character.NoFallDamage(State)
 
         getgenv().duhhh = FakeNoFall:GetPropertyChangedSignal("Parent"):Connect(function(NewParent)
             if (NewParent == nil) then
-                local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+                local Character = LocalPlayer.Character
+
+                if (Character == nil) then
+                    repeat
+                        task.wait()
+                        Character = LocalPlayer.Character
+                    until Character ~= nil
+                end
 
                 FakeNoFall.Parent = Character
             end
