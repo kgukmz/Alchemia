@@ -37,7 +37,7 @@ getgenv().directRequire = function(Path)
         return GetService("HttpService"):JSONDecode(DirectoryRequest.Body)
     end
 
-    local CachedModule = loadstring(RequestBody, "...")()
+    local CachedModule = loadstring(RequestBody, Path)()
     ModuleCache[Path] = CachedModule
 
     return CachedModule
