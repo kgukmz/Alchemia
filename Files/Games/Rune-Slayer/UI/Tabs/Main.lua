@@ -24,10 +24,6 @@ end
 local Utility = GetFeature("Utility.lua")
 local Character = GetFeature("Character.lua")
 
-AddSection("Lol", function(LibraryData)
-    print(LibraryData.Tab)
-end)
---[[
 function Main.Sections:Movement(LibraryData)
     local Columns = LibraryData.Columns
 
@@ -36,30 +32,26 @@ function Main.Sections:Movement(LibraryData)
 
     local MovementSection = LeftColumn:AddSection("Movement")
 
-    MovementSection:AddToggle({
+    local SpeedToggle = MovementSection:AddToggle({
         text = "Speed";
     })
 
-    MovementSection:AddToggle({
+    SpeedToggle:AddSlider({
+        text = "Velocity";
+        value = 0;
+        min = 0;
+        max = 125;
+    })
+
+    local InfiniteJumpToggle = MovementSection:AddToggle({
         text = "Infinite Jump";
     })
 
-    MovementSection:AddDivider({
-        text = "Sliders";
-    })
-
-    MovementSection:AddSlider({
-        text = 'Speed Velocity',
-        value = 0,
-        min = 0,
-        max = 125,
-    })
-
-    MovementSection:AddSlider({
-        text = 'Infinite Jump Velocity',
-        value = 0,
-        min = 0,
-        max = 125,
+    InfiniteJumpToggle:AddSlider({
+        text = "Velocity";
+        value = 0;
+        min = 0;
+        max = 125;
     })
 end
 
@@ -72,14 +64,14 @@ function Main.Sections:Client(LibraryData)
     local RemovalSection = LeftColumn:AddSection("Client")
 
     RemovalSection:AddToggle({
+        text = "Enable No Clip";
+        callback = Character.NoClip;
+    })
+    
+    RemovalSection:AddToggle({
         text = "Enable Temperature Lock";
         tip = "Enable it in the area you want to keep your temperature in [MAY CAUSE PERFORMANCE ISSUES OVER EXTENDED PERIODS OF USE]";
         callback = Utility.TemperatureLock;
-    })
-
-    RemovalSection:AddToggle({
-        text = "Enable No Clip";
-        callback = Character.NoClip;
     })
 
     AddPlaceSpecific(112498449402953, function()
@@ -133,7 +125,7 @@ function Main.Sections:Waypoints(LibraryData)
         text = "Delete Waypoint";
     })
 end
---]]
+
 
 function Main:Init(Library, TabIndex)
     local MainTab = Library:AddTab("Main", TabIndex)
@@ -146,6 +138,7 @@ function Main:Init(Library, TabIndex)
     for i = 1, 2 do
         table.insert(LibraryData.Columns, MainTab:AddColumn())
     end
+
     --[[
     for Section, Func in next, self.Sections do
         local Success, Error = pcall(Func, self.Sections, LibraryData)
@@ -156,13 +149,12 @@ function Main:Init(Library, TabIndex)
     end
     --]]
 
-    for i, Func in ipairs(self.Sections) do
-        local Success, Error = pcall(Func, self.Sections, LibraryData)
+    -- // Left Columns
+    self.Sections:Movement(LibraryData)
+    self.Sections:Client(LibraryData)
 
-        if (not Success) then
-            warn(string.format("Error loading tab %s: [%s]", Section, Error))
-        end
-    end
+    -- // Right Columns
+    self.Sections:Waypoints(LibraryData)
 
     print("All tabs loaded")
 end
