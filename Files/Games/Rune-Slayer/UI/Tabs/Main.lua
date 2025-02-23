@@ -3,14 +3,14 @@ local Main = {
 }
 
 function Main.Sections:Removals(LibraryData)
-    print("Ok")
-    local LeftColumn, RightColumn = unpack(LibraryData.Columns)
-    print(LeftColumn, RightColumn)
-
+    local Columns = unpack(LibraryData.Columns)
+    local LeftColumn = select(1, Columns)
+    local RightColumn = select(2, Columns)
+    
     local RemovalSection = LeftColumn:AddSection("Removals")
 
     RemovalSection:AddToggle({
-        Text = "Temperature Lock";
+        text = "Enable Temperature Lock";
     })
 end
 
@@ -25,8 +25,6 @@ function Main:Init(Library, TabIndex)
             MainTab:AddColumn();
         };
     };
-
-    print("Ok")
 
     for Section, Func in next, self.Sections do
         local Success, Error = pcall(Func, self.Sections, LibraryData)
