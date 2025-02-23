@@ -28,15 +28,32 @@ function Main.Sections:Movement(LibraryData)
 
     local MovementSection = LeftColumn:AddSection("Movement")
 
-    local SpeedToggle = MovementSection:AddToggle({
-        text = "Speed";
+    local WalkSpeedToggle = MovementSection:AddToggle({
+        text = "Walkspeed";
+        callback = Character.ChangeWalkSpeed;
+        flag = "WalkSpeedToggle";
     })
 
-    SpeedToggle:AddSlider({
+    WalkSpeedToggle:AddSlider({
         text = "Velocity";
         value = 0;
         min = 0;
         max = 125;
+        flag = "WalkSpeedSlider";
+    })
+
+    local JumpHeightToggle = MovementSection:AddToggle({
+        text = "Jump Height";
+        callback = Character.ChangeJumpHeight;
+        flag = "JumpHeightToggle";
+    })
+
+    JumpHeightToggle:AddSlider({
+        text = "Height";
+        value = 0;
+        min = 0;
+        max = 125;
+        flag = "JumpHeightSlider";
     })
 
     local InfiniteJumpToggle = MovementSection:AddToggle({

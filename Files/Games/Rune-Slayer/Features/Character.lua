@@ -1,4 +1,4 @@
-local CharacterM = {}
+local Character = {}
 
 local ConnectionModule = directRequire("Files/Modules/Connections.lua")
 
@@ -18,7 +18,69 @@ local BodyParts = {
 
 local NoClipConnection = ConnectionModule.new(RunService.Stepped)
 
-function CharacterM.NoClip(State)
+function Character.ChangeWalkSpeed(State)
+    if (State == false) then
+        return
+    end
+
+    local Character = LocalPlayer.Character
+    local Humanoid = Character:FindFirstChild("Humanoid")
+
+    repeat
+        Character = LocalPlayer.Character
+
+        if (Character == nil) then
+            continue
+        end
+
+        Humanoid = Character:FindFirstChild("Humanoid")
+        
+        if (Humanoid == nil) then
+            continue
+        end
+
+        Humanoid.WalkSpeed = Library.flags["WalkSpeedSlider"]
+
+        task.wait()
+    until Library.flags["WalkSpeedToggle"] == false
+
+    if (Humanoid ~= nil) then
+        Humanoid.WalkSpeed = 16
+    end
+end
+
+function Character.ChangeJumpHeight()
+    if (State == false) then
+        return
+    end
+
+    local Character = LocalPlayer.Character
+    local Humanoid = Character:FindFirstChild("Humanoid")
+
+    repeat
+        Character = LocalPlayer.Character
+
+        if (Character == nil) then
+            continue
+        end
+
+        Humanoid = Character:FindFirstChild("Humanoid")
+        
+        if (Humanoid == nil) then
+            continue
+        end
+
+        Humanoid.JumpHeight = Library.flags["JumpHeightSlider"]
+
+        task.wait()
+    until Library.flags["JumpHeightToggle"] == false
+
+    if (Humanoid ~= nil) then
+        Humanoid.JumpHeight = 6
+    end
+end
+
+function Character.NoClip(State)
     if (State == true) then
         NoClipConnection:Connect(function()
             local Character = LocalPlayer.Character
@@ -54,4 +116,4 @@ function CharacterM.NoClip(State)
     end
 end
 
-return CharacterM
+return Character
