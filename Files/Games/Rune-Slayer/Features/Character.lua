@@ -1,6 +1,6 @@
 local CharacterM = {}
 
-local ConnectionModule = directRequire("Fi;es/Modules/Connections.lua")
+local ConnectionModule = directRequire("Files/Modules/Connections.lua")
 
 local Players = GetService("Players")
 local RunService = GetService("RunService")
