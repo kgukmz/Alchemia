@@ -22,12 +22,13 @@ task.defer(function()
     print(AreaChangeRemote, AreaChangeEvent)
 end)
 
-function Utility:TemperatureLock(State)
+function Utility:TemperatureLock(State, ...)
     if AreaChangeEvent == nil then
         warn("CANNOT FIND AREA CHANGE EVENT")
         return
     end
     
+    warn(unpack({...}))
     print("Exists")
     print(State)
 
