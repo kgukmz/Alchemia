@@ -19,7 +19,7 @@ function Menu:Setup(Library)
         local Index = select(1, ...)
         local Value = select(2, ...)
     
-        if (not checkcaller()) then
+        if (checkcaller() ~= true) then
             if (tostring(self) == "Humanoid") then
                 if (Index == "WalkSpeed" and Library.flags["WalkSpeedToggle"] == true) then
                     return 16
@@ -31,7 +31,7 @@ function Menu:Setup(Library)
             end
         end
     
-        return oldHook(self, ...)
+        return OldHook(self, ...)
     end)
 
     for i, Tab in self.Tabs do

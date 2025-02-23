@@ -95,7 +95,6 @@ NewLoader:ChangeAction("All done")
 local FadeOut = NewLoader:FadeOut(0.5)
 FadeOut.Completed:Connect(function()
     NewLoader:Destroy()
-
     task.delay(0.15, UILibrary.Init, UILibrary)
 end)
 
