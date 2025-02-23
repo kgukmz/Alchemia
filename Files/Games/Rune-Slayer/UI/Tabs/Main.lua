@@ -3,7 +3,7 @@ local Main = {
 }
 
 function GetFeatureModule(Path)
-    local ModulePath = directRequire("Files/Games/%s/Features/%s", "Rune-Slayer", Path)
+    local ModulePath = directRequire(string.format("Files/Games/%s/Features/%s", "Rune-Slayer", Path))
     return ModulePath
 end
 
