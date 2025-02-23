@@ -14,7 +14,7 @@ function Connections:Connect(Callback)
         return
     end
 
-    self.NewEvent:Connect(Callback)
+    self.Connection = self.NewEvent:Connect(Callback)
 end
 
 function Connections:Disconnect()
