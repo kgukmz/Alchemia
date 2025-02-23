@@ -31,10 +31,12 @@ function CharacterM.NoClip(State)
                 if (BodyPart:IsA("BasePart") ~= true) then
                     continue
                 end
-
+                
+                --[[
                 if (not table.find(BodyParts, BodyPart.Name)) then
                     continue
                 end
+                --]]
 
                 BodyPart.CanCollide = false
             end
@@ -48,17 +50,7 @@ function CharacterM.NoClip(State)
             return
         end
 
-        for i, BodyPart in next, Character:GetChildren() do
-            if (BodyPart:IsA("BasePart") ~= true) then
-                continue
-            end
-
-            if (not table.find(BodyParts, BodyPart.Name)) then
-                continue
-            end
-
-            BodyPart.CanCollide = true
-        end
+        Character.HumanoidRootPart.CanCollide = true
     end
 end
 
