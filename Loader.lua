@@ -78,12 +78,12 @@ local UserData = {
     JobId = JobId;
 }
 
-print(PlaceId == 112498449402953, GameList[tostring(game.PlaceId)])
 local GameName = GameList[tostring(PlaceId)]
 
 if (GameName ~= nil) then
-    local UI = require(string.format("Files/Games/%s/UI/Menu.lua", GameName))
-    local Success, Error = pcall(UI.Setup, UI, UILibrary)
+    local MenuModule = require(string.format("Files/Games/%s/UI/Menu.lua", GameName))
+    warn(MenuModule)
+    local Success, Error = pcall(MenuModule.Setup, MenuModule, UILibrary)
 
     if (not Success) then
         warn(string.format("Unable to load menu for %s: [%s]", GameName, Error))
