@@ -78,6 +78,7 @@ local UserData = {
     JobId = JobId;
 }
 
+table.foreach(GameList, print)
 local GameName = GameList[PlaceId]
 
 warn(GameName)
@@ -89,9 +90,6 @@ if (GameName ~= nil) then
     if (not Success) then
         warn(string.format("Unable to load menu for %s: [%s]", GameName, Error))
         return
-    else
-        print("Yo")
-        NewLoader:ChangeAction("Loading")
     end
 end
 
