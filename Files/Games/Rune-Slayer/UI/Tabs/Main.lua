@@ -58,6 +58,7 @@ function Main.Sections:Movement(LibraryData)
 
     local InfiniteJumpToggle = MovementSection:AddToggle({
         text = "Infinite Jump";
+        flag = "InfiniteJumpToggle";
     })
 
     InfiniteJumpToggle:AddSlider({
@@ -65,6 +66,7 @@ function Main.Sections:Movement(LibraryData)
         value = 0;
         min = 0;
         max = 125;
+        flag = "InfiniteJumpSlider";
     })
 end
 
@@ -79,17 +81,20 @@ function Main.Sections:Client(LibraryData)
     RemovalSection:AddToggle({
         text = "Enable No Clip";
         callback = Character.NoClip;
+        flag = "NoClipToggle";
     })
 
     RemovalSection:AddToggle({
         text = "Enable No Fall Damage";
         callback = Character.NoFallDamage;
+        flag = "NoFallDamageToggle";
     })
 
     RemovalSection:AddToggle({
         text = "Enable Temperature Lock";
         tip = "Enable it in the area you want to keep your temperature in [MAY CAUSE PERFORMANCE ISSUES OVER EXTENDED PERIODS OF USE]";
         callback = Utility.TemperatureLock;
+        flag = "TemperatureLockToggle";
     })
 
     AddPlaceSpecific(112498449402953, function()
