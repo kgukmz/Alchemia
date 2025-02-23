@@ -14,6 +14,7 @@ AddTab(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", "Main.lua"))
 function Menu:Setup(Library)
     self.Library = Library
     
+    --[[
     local OldHook = nil
     OldHook = hookmetamethod(game, "__newindex", function(self, ...)
         local Index = select(1, ...)
@@ -33,6 +34,7 @@ function Menu:Setup(Library)
     
         return OldHook(self, ...)
     end)
+    --]]
 
     for i, Tab in self.Tabs do
         local Success, Error = pcall(Tab.Init, Tab, Library, i)
