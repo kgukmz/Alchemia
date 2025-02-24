@@ -38,7 +38,7 @@ function Main.Sections:Movement(LibraryData)
         text = "Velocity";
         value = 0;
         min = 0;
-        max = 125;
+        max = 200;
         flag = "WalkSpeedSlider";
     })
 
