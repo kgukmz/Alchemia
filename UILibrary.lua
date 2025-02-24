@@ -2926,8 +2926,8 @@ do -- // Load
 
         self.main = self:Create('ImageButton', {
             AutoButtonColor = false,
-            Position = UDim2.new(0, 100, 0, 46),
-            Size = UDim2.new(0, 500, 0, 600),
+            Position = UDim2.new(0, 100, 0, 100),
+            Size = UDim2.new(0, 550, 0, 600),
             BackgroundColor3 = Color3.fromRGB(20, 20, 20),
             BorderColor3 = Color3.new(),
             ScaleType = Enum.ScaleType.Tile,
