@@ -126,6 +126,17 @@ function Main.Sections:Client(LibraryData)
     })
 end
 
+function Main.Sections:World(LibraryData)
+    local Columns = LibraryData.Columns
+
+    local LeftColumn = select(1, unpack(Columns))
+    local RightColumn = select(2, unpack(Columns))
+
+    local WorldSection = RightColumn:AddSection("World")
+
+    WorldSection:AddToggle("Enable Fullbright")
+end
+
 function Main.Sections:Waypoints(LibraryData)
     local Columns = LibraryData.Columns
 
@@ -155,7 +166,6 @@ function Main.Sections:Waypoints(LibraryData)
         text = "Delete Waypoint";
     })
 end
-
 
 function Main:Init(Library, TabIndex)
     local MainTab = Library:AddTab("Main", TabIndex)
