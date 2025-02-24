@@ -184,6 +184,9 @@ do -- // Load
         library.OnKeyRelease:Fire(fastInputObject);
     end;
 
+    UserInputService.InputBegan:Connect(onInputBegan)
+    UserInputService.InputEnded:Connect(onInputEnded)
+
     local function makeTooltip(interest, option)
         interest.InputChanged:connect(function(input)
             if input.UserInputType.Name == 'MouseMovement' then
@@ -983,8 +986,6 @@ do -- // Load
                 library.OnKeyPress = nil;
             else
                 library.OnKeyPress:Connect(function()
-                    print("KEY PRESSED")
-
                     if (library.disableKeyBind or #option.keys == 0 or debounce) then return end;
                     if (not isKeybindPressed()) then return; end;
 
@@ -1011,8 +1012,6 @@ do -- // Load
                 end);
 
                 library.OnKeyRelease:Connect(function()
-                    print("KEY PRESSED")
-                    
                     if (debounce and not isKeybindPressed()) then debounce = false; end;
                     if (option.mode ~= 'hold') then return; end;
 
