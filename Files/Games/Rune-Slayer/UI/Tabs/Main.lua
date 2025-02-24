@@ -126,6 +126,41 @@ function Main.Sections:Client(LibraryData)
     })
 end
 
+function Main.Sections:World(LibraryData)
+    local Columns = LibraryData.Columns
+
+    local LeftColumn = select(1, unpack(Columns))
+    local RightColumn = select(2, unpack(Columns))
+
+    local WorldSection = RightColumn:AddSection("World")
+
+    WorldSection:AddToggle({
+        text = "Disable Fog";
+        callback = Utility.DisableFog;
+        flag = "DisableFogToggle";
+    })
+
+    WorldSection:AddToggle({
+        text = "Disable Shadows";
+        callback = Utility.DisableShadows;
+        flag = "DisableShadowsToggle";
+    })
+
+    local FullbrightToggle = WorldSection:AddToggle({
+        text = "Disable Ambient";
+        callback = Utility.DisableAmbient;
+        flag = "DisableAmbientToggle";
+    })
+
+    FullbrightToggle:AddSlider({
+        text = "Intensity";
+        value = 0;
+        min = 0;
+        max = 255;
+        flag = "AmbientIntensitySlider";
+    })
+end
+
 function Main.Sections:Waypoints(LibraryData)
     local Columns = LibraryData.Columns
 

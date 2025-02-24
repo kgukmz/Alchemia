@@ -1,10 +1,19 @@
 local Utility = {}
 
+local ConnectionModule = directRequire("Files/Modules/Connections.lua")
+
 local Players = GetService("Players")
+local Lighting = GetService("Lighting")
+local RunService = GetService("RunService")
 
 local LocalPlayer = Players.LocalPlayer
 
 local AreaChangeEvent = nil
+local OldAmbient = nil
+local OldFogEnd = nil
+
+local FogEndChangedConnection = ConnectionModule.new(Lighting:GetPropertyChangedSignal("FogEnd"))
+local AmbientHeartbeatConnection = ConnectionModule.new(RunService.Heartbeat)
 
 task.defer(function()
     local CurrentArea = LocalPlayer:FindFirstChild("CurrentArea")
@@ -19,19 +28,6 @@ task.defer(function()
 
     AreaChangeEvent = AreaChangeRemote
 end)
-
-function Utility.TemperatureLock(State)
-    if AreaChangeEvent == nil then
-        warn("CANNOT FIND AREA CHANGE EVENT")
-        return
-    end
-
-    if (State == true) then
-        AreaChangeEvent.Name = "Area Change Event"
-    else
-        AreaChangeEvent.Name = "AreaChangeEvent"
-    end
-end
 
 function Utility.ResetCharacter()
     local Character = LocalPlayer.Character
@@ -52,6 +48,53 @@ function Utility.ResetCharacter()
     end
 
     CharacterHead:Destroy()
+end
+
+function Utility.TemperatureLock(State)
+    if AreaChangeEvent == nil then
+        warn("CANNOT FIND AREA CHANGE EVENT")
+        return
+    end
+
+    if (State == true) then
+        AreaChangeEvent.Name = "Area Change Event"
+    else
+        AreaChangeEvent.Name = "AreaChangeEvent"
+    end
+end
+
+function Utility.DisableFog(State)
+    if (State == true) then
+        Lighting.FogEnd = 100000
+
+        FogEndChangedConnection:Connect(function()
+            OldFogEnd = Lighting.FogEnd
+            Lighting.FogEnd = 100000
+        end)
+    else
+        FogEndChangedConnection:Disconnect()
+
+        if (OldFogEnd ~= nil) then
+            Lighting.FogEnd = OldFogEnd
+        end
+    end
+end
+
+function Utility.DisableAmbient(State)
+    if (State == true) then
+        AmbientHeartbeatConnection:Connect(function()
+            local Intensity = Library.flags["AmbientIntensitySlider"]
+            local AmbientIntensity = Color3.fromRGB(Intensity, Intensity, Intensity)
+
+            Lighting.Ambient = AmbientIntensity
+        end)
+    else
+        AmbientHeartbeatConnection:Disconnect()
+    end
+end
+
+function Utility.DisableShadows(State)
+    Lighting.GlobalShadows = not State
 end
 
 return Utility
