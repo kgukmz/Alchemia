@@ -219,6 +219,7 @@ function Main:Init(Library, TabIndex)
     self.Sections:Client(LibraryData)
 
     -- // Right Columns
+    self.Sections:World(LibraryData)
     self.Sections:Waypoints(LibraryData)
 
     print("All tabs loaded")
