@@ -135,9 +135,9 @@ function Main.Sections:World(LibraryData)
     local WorldSection = RightColumn:AddSection("World")
 
     WorldSection:AddToggle({
-        text = "Disable Fog";
-        callback = Utility.DisableFog;
-        flag = "DisableFogToggle";
+        text = "Disable Atmosphere";
+        callback = Utility.DisableAtmosphere;
+        flag = "DisableAtmosphereToggle";
     })
 
     WorldSection:AddToggle({
@@ -219,8 +219,8 @@ function Main:Init(Library, TabIndex)
     self.Sections:Client(LibraryData)
 
     -- // Right Columns
-    self.Sections:World(LibraryData)
     self.Sections:Waypoints(LibraryData)
+    self.Sections:World(LibraryData)
 
     print("All tabs loaded")
 end

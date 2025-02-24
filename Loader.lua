@@ -22,8 +22,6 @@ getgenv().directRequire = function(Path)
         Url = "https://raw.githubusercontent.com/kgukmz/Alchemia/refs/heads/dev/" .. Path;
         Method = "GET";
     })
-
-    print("https://raw.githubusercontent.com/kgukmz/Alchemia/refs/heads/dev/" .. Path)
     
     if (DirectoryRequest.Success == false) then
         local Traceback = debug.traceback()

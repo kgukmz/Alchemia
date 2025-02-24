@@ -9,11 +9,13 @@ local RunService = GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 
 local AreaChangeEvent = nil
-local OldAmbient = nil
+local OldDensity = nil
 local OldFogEnd = nil
 
 local FogEndChangedConnection = ConnectionModule.new(Lighting:GetPropertyChangedSignal("FogEnd"))
 local AmbientHeartbeatConnection = ConnectionModule.new(RunService.Heartbeat)
+
+local AtmosphereConnection = nil
 
 task.defer(function()
     local CurrentArea = LocalPlayer:FindFirstChild("CurrentArea")
@@ -77,6 +79,34 @@ function Utility.DisableFog(State)
         if (OldFogEnd ~= nil) then
             Lighting.FogEnd = OldFogEnd
         end
+    end
+end
+
+function Utility.DisableAtmosphere(State)
+    local Atmosphere = Lighting:FindFirstChild("Atmosphere")
+    
+    if (Atmosphere == nil) then
+        return
+    end
+
+    if (State) == true then
+        OldDensity = Atmosphere.Density    
+        Atmosphere.Density = 0
+
+        if (AtmosphereConnection == nil) then
+            AtmosphereConnection = ConnectionModule.new(Atmosphere:GetPropertyChangedSignal("Density"))
+        end
+        
+        AtmosphereConnection:Connect(function()
+            OldDensity = Atmosphere.Density
+            Atmosphere.Density = 0;
+        end)
+    else
+        if (AtmosphereConnection ~= nil) then
+            AtmosphereConnection:Disconnect()
+        end
+
+        Atmosphere.Density = OldDensity
     end
 end
 
