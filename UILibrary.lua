@@ -33,7 +33,6 @@ local globalConfFilePath = 'Aztup Hub V3/configs/globalConf.bin';
 local isGlobalConfigOn = readfile(globalConfFilePath) == 'true';
 --]]
 
---[[
 local Signal = {}
 Signal.__index = Signal
 
@@ -54,6 +53,7 @@ function Signal:Connect(Callback)
     end
 
     return self.BindableEvent.Event:Connect(function()
+        print(self.Arguments, self.TotalArgs)
         Callback(table.unpack(self.Arguments, 1, self.TotalArgs))
     end)
 end
@@ -81,66 +81,6 @@ function Signal:Destroy()
 
     self.BindableEvent:Destroy()
     self.BindableEvent = nil
-end
---]]
-
-local Signal = {}
-Signal.__index = Signal
-Signal.ClassName = "Signal"
-
-function Signal.new()
-	local self = setmetatable({}, Signal)
-
-	self._bindableEvent = Instance.new("BindableEvent")
-	self._argData = nil
-	self._argCount = nil -- Prevent edge case of :Fire("A", nil) --> "A" instead of "A", nil
-
-	return self
-end
-
-function Signal.isSignal(object)
-	return typeof(object) == 'table' and getmetatable(object) == Signal;
-end;
-
-function Signal:Fire(...)
-	self._argData = {...}
-	self._argCount = select("#", ...)
-	self._bindableEvent:Fire()
-	self._argData = nil
-	self._argCount = nil
-end
-
-function Signal:Connect(handler)
-	if not self._bindableEvent then return error("Signal has been destroyed"); end --Fixes an error while respawning with the UI injected
-
-	if not (type(handler) == "function") then
-		error(("connect(%s)"):format(typeof(handler)), 2)
-	end
-
-	return self._bindableEvent.Event:Connect(function()
-		if not self._argData then
-			warn("self._argData is nil in Signal:Connect. This indicates the signal was connected before it was fired, or was improperly fired. Investigate! ")
-			return -- Or call handler with default values: handler() if appropriate
-		end
-		handler(unpack(self._argData, 1, self._argCount))
-	end)
-end
-
-
-function Signal:Wait()
-	self._bindableEvent.Event:Wait()
-	assert(self._argData, "Missing arg data, likely due to :TweenSize/Position corrupting threadrefs.")
-	return unpack(self._argData, 1, self._argCount)
-end
-
-function Signal:Destroy()
-	if self._bindableEvent then
-		self._bindableEvent:Destroy()
-		self._bindableEvent = nil
-	end
-
-	self._argData = nil
-	self._argCount = nil
 end
 
 local library = {
