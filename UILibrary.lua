@@ -118,9 +118,14 @@ function Signal:Connect(handler)
 	end
 
 	return self._bindableEvent.Event:Connect(function()
+		if not self._argData then
+			warn("self._argData is nil in Signal:Connect. This indicates the signal was connected before it was fired, or was improperly fired. Investigate! ")
+			return -- Or call handler with default values: handler() if appropriate
+		end
 		handler(unpack(self._argData, 1, self._argCount))
 	end)
 end
+
 
 function Signal:Wait()
 	self._bindableEvent.Event:Wait()
