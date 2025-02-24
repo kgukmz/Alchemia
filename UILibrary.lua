@@ -984,11 +984,12 @@ do -- // Load
             bindinput.Size = UDim2.new(0, -TextService:GetTextSize(bindinput.Text, 16, Enum.Font.Code, Vector2.new(9e9, 9e9)).X, 0, 16)
 
             if (self.key == 'none') then
+                --[[
                 library.OnKeyPress = nil;
                 library.OnKeyPress = nil;
+                --]]
             else
                 library.OnKeyPress:Connect(function()
-                    print("KEYPRESSED")
                     if (library.disableKeyBind or #option.keys == 0 or debounce) then return end;
                     if (not isKeybindPressed()) then return; end;
 
@@ -1015,7 +1016,6 @@ do -- // Load
                 end);
 
                 library.OnKeyRelease:Connect(function()
-                    print("KEYRELEASED")
                     if (debounce and not isKeybindPressed()) then debounce = false; end;
                     if (option.mode ~= 'hold') then return; end;
 
