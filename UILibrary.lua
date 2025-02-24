@@ -88,7 +88,7 @@ local library = {
 	flags = {
         menuAccentColor = Color3.fromRGB(255, 255, 255)
     },
-	title = string.format('Alchemia | v%s', 'DEBUG'),
+	title = string.format('Alchemia | v%s', '1'),
 	open = false,
 	popup = nil,
 	instances = {},
