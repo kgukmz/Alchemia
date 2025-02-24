@@ -157,6 +157,7 @@ do -- // Load
         };
 
         library.OnKeyPress:Fire(fastInputObject, gpe);
+        print("Fired Press")
     end;
 
     local function onInputEnded(input)
@@ -182,6 +183,7 @@ do -- // Load
         };
 
         library.OnKeyRelease:Fire(fastInputObject);
+        print("Fired Release")
     end;
 
     UserInputService.InputBegan:Connect(onInputBegan)
@@ -986,6 +988,7 @@ do -- // Load
                 library.OnKeyPress = nil;
             else
                 library.OnKeyPress:Connect(function()
+                    print("KEYPRESSED")
                     if (library.disableKeyBind or #option.keys == 0 or debounce) then return end;
                     if (not isKeybindPressed()) then return; end;
 
@@ -1012,6 +1015,7 @@ do -- // Load
                 end);
 
                 library.OnKeyRelease:Connect(function()
+                    print("KEYRELEASED")
                     if (debounce and not isKeybindPressed()) then debounce = false; end;
                     if (option.mode ~= 'hold') then return; end;
 
