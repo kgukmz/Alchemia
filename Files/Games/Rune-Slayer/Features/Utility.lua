@@ -11,9 +11,11 @@ local LocalPlayer = Players.LocalPlayer
 local AreaChangeEvent = nil
 local OldDensity = nil
 local OldFogEnd = nil
+local OldAmbient = nil
 
 local FogEndChangedConnection = ConnectionModule.new(Lighting:GetPropertyChangedSignal("FogEnd"))
-local AmbientHeartbeatConnection = ConnectionModule.new(RunService.Heartbeat)
+local AmbientChangedConnection = ConnectionModule.new(Lighting:GetPropertyChangedSignal("Ambient"))
+local UpdateAmbientConnection = ConnectionModule.new(RunService.Heartbeat)
 
 local AtmosphereConnection = nil
 
@@ -106,8 +108,6 @@ function Utility.DisableAtmosphere(State)
             AtmosphereConnection:Disconnect()
         end
 
-        warn(OldDensity)
-
         if (OldDensity ~= nil) then
             Atmosphere.Density = OldDensity
         end
@@ -116,14 +116,22 @@ end
 
 function Utility.DisableAmbient(State)
     if (State == true) then
-        AmbientHeartbeatConnection:Connect(function()
-            local Intensity = Library.flags["AmbientIntensitySlider"]
-            local AmbientIntensity = Color3.fromRGB(Intensity, Intensity, Intensity)
+        local AmbientIntensity = Library.flags["AmbientIntensitySlider"]
+        local Intensity = Color3.fromRGB(255, 255, 255)
 
-            Lighting.Ambient = AmbientIntensity
+        OldAmbient = Lighting.Ambient
+        Lighting.Ambient = Intensity
+
+        AmbientChangedConnection:Connect(function()
+            OldAmbient = Lighting.Ambient
+            Lighting.Ambient = Intensity
         end)
     else
-        AmbientHeartbeatConnection:Disconnect()
+        AmbientChangedConnection:Disconnect()
+
+        if (OldAmbient ~= nil) then
+            Lighting.Ambient = OldAmbient
+        end
     end
 end
 

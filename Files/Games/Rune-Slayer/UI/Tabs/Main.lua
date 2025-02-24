@@ -152,6 +152,7 @@ function Main.Sections:World(LibraryData)
         flag = "DisableAmbientToggle";
     })
 
+    --[[
     FullbrightToggle:AddSlider({
         text = "Intensity";
         value = 0;
@@ -159,6 +160,7 @@ function Main.Sections:World(LibraryData)
         max = 255;
         flag = "AmbientIntensitySlider";
     })
+    --]]
 end
 
 function Main.Sections:Waypoints(LibraryData)
