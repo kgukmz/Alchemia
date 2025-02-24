@@ -132,7 +132,7 @@ function Main.Sections:World(LibraryData)
     local LeftColumn = select(1, unpack(Columns))
     local RightColumn = select(2, unpack(Columns))
 
-    local WorldSection = RightColumn:AddSection("World")
+    local WorldSection = LeftColumn:AddSection("World")
 
     WorldSection:AddToggle({
         text = "Disable Atmosphere";
@@ -217,10 +217,10 @@ function Main:Init(Library, TabIndex)
     -- // Left Columns
     self.Sections:Movement(LibraryData)
     self.Sections:Client(LibraryData)
+    self.Sections:World(LibraryData)
 
     -- // Right Columns
     self.Sections:Waypoints(LibraryData)
-    self.Sections:World(LibraryData)
 
     print("All tabs loaded")
 end
