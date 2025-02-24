@@ -213,7 +213,6 @@ do -- // Load
         };
 
         library.OnKeyPress:Fire(fastInputObject, gpe);
-        print("Fired Press")
     end;
 
     local function onInputEnded(input)
@@ -239,7 +238,6 @@ do -- // Load
         };
 
         library.OnKeyRelease:Fire(fastInputObject);
-        print("Fired Release")
     end;
 
     UserInputService.InputBegan:Connect(onInputBegan)
