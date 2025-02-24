@@ -98,8 +98,6 @@ function Utility.DisableAtmosphere(State)
         end
         
         AtmosphereConnection:Connect(function(New)
-            print("Changed:", New)
-            print("X", Atmosphere.Density)
             OldDensity = Atmosphere.Density
             Atmosphere.Density = 0;
         end)
@@ -107,6 +105,8 @@ function Utility.DisableAtmosphere(State)
         if (AtmosphereConnection ~= nil) then
             AtmosphereConnection:Disconnect()
         end
+
+        warn(OldDensity)
 
         if (OldDensity ~= nil) then
             Atmosphere.Density = OldDensity
