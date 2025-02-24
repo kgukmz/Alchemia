@@ -23,13 +23,12 @@ if (not isfile('Alchemia/configs')) then
     makefolder('Alchemia/configs');
 end;
 
---[[
-if (not isfile('Aztup Hub V3/configs/globalConf.bin')) then
+if (not isfile('Alchemia/configs/globalConf.bin')) then
     -- By default global config is turned on
-    writefile('Aztup Hub V3/configs/globalConf.bin', 'true');
+    writefile('Alchemia/configs/globalConf.bin', 'true');
 end;
 
-local globalConfFilePath = 'Aztup Hub V3/configs/globalConf.bin';
+local globalConfFilePath = 'Alchemia/configs/globalConf.bin';
 local isGlobalConfigOn = readfile(globalConfFilePath) == 'true';
 --]]
 
@@ -53,7 +52,7 @@ function Signal:Connect(Callback)
     end
 
     return self.BindableEvent.Event:Connect(function()
-        print(self.Arguments, self.TotalArgs)
+        -- print(self.Arguments, self.TotalArgs)
         Callback(table.unpack(self.Arguments, 1, self.TotalArgs))
     end)
 end
@@ -96,16 +95,18 @@ local library = {
 	connections = {},
 	options = {
         --values = {};
+        --[[
         configList = {
             values = {};
         };
+        --]]
     },
 	notifications = {},
     configVars = {},
 	tabSize = 0,
 	theme = {},
 	-- foldername =  isGlobalConfigOn and 'Aztup Hub V3/configs/global' or string.format('Aztup Hub V3/configs/%s', tostring(LocalPlayer.UserId)),
-    foldername = "Alchemia/configs";
+    foldername = string.format("Alchemia/configs/%s", tostring(LocalPlayer.UserId));
 	fileext = ".json",
     chromaColor = Color3.new()
 }
@@ -118,6 +119,7 @@ do -- // Load
     getgenv().Library = library
 
     local mouseMovement = Enum.UserInputType.MouseMovement;
+    local configNameTest = ""
 
     --Locals
     local dragging, dragInput, dragStart, startPos, dragObject
@@ -1828,7 +1830,7 @@ do -- // Load
 
         option.hexBox = option.rgbBox:Clone()
         option.hexBox.Position = UDim2.new(0, 6, 0, 238)
-        -- option.hexBox.Size = UDim2.new(0, (option.mainHolder.AbsoluteSize.X/2 - 10), 0, 20)
+        option.hexBox.Size = UDim2.new(0, (option.mainHolder.AbsoluteSize.X/2 - 10), 0, 20)
         option.hexBox.Parent = option.mainHolder
         option.hexInput = option.hexBox.TextBox;
 
@@ -2915,7 +2917,7 @@ do -- // Load
         if RunService:IsStudio() then
             self.base.Parent = script.Parent.Parent
         else
-            if(gethui) then
+            if(gethuizz) then
                 self.base.Parent = gethui();
             else
                 local protectgui = protect_gui or protect_gui or function() end
@@ -2927,7 +2929,7 @@ do -- // Load
         self.main = self:Create('ImageButton', {
             AutoButtonColor = false,
             Position = UDim2.new(0, 100, 0, 100),
-            Size = UDim2.new(0, 550, 0, 600),
+            Size = UDim2.new(0, 500, 0, 600),
             BackgroundColor3 = Color3.fromRGB(20, 20, 20),
             BorderColor3 = Color3.new(),
             ScaleType = Enum.ScaleType.Tile,
@@ -3208,8 +3210,6 @@ do -- // Load
         end
 
         task.spawn(function()
-            print("Fix Later", debug.traceback())
-            --[[
             while library do
                 local Configs = self:GetConfigs()
                 for _, config in next, Configs do
@@ -3224,7 +3224,6 @@ do -- // Load
                 end
                 task.wait(1);
             end
-            --]]
         end)
 
         for _, tab in next, self.tabs do
@@ -3315,7 +3314,7 @@ do -- // Load
             end;
 
             return library:ShowConfirm(string.format(
-                'Are you sure you want to %s config <font color=\'rgb(%s, %s, %s)\'>%s</font>',
+                'Are you sure you want to create %s config <font color=\'rgb(%s, %s, %s)\'>%s?</font>',
                 text,
                 r,
                 g,
@@ -3452,9 +3451,9 @@ do -- // Load
         });
         --]]
 
-        -- settingsMain:AddToggle({
-        --     text = 'Remote Control'
-        -- });
+        settingsMain:AddToggle({
+           text = 'Remote Control'
+        });
 
         settingsMenu:AddBind({
             text = 'Open / Close',
@@ -3518,7 +3517,7 @@ do -- // Load
         local function getAllConfigs()
             local files = {};
             --//                       'Aztup Hub V3/configs'
-            for _, v in next, listfiles(library.foldername) do
+            for _, v in next, listfiles("Alchemia/configs") do
                 if (not isfolder(v)) then continue; end;
 
                 for _, v2 in next, listfiles(v) do
@@ -3545,7 +3544,7 @@ do -- // Load
             end;
         end
 
-        configSection:AddList({
+        library.options.configList = configSection:AddList({
             text = 'Configs',
             skipflag = true,
             value = '',
