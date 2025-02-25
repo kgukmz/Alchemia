@@ -189,11 +189,10 @@ do -- // Load
         library.OnKeyRelease:Fire(fastInputObject);
     end;
 
-    print(debug.traceback(), "Keybinds disabled [for now]")
-    --[[
-        UserInputService.InputBegan:Connect(onInputBegan)
-        UserInputService.InputEnded:Connect(onInputEnded)
-    --]]
+    --print(debug.traceback(), "Keybinds disabled [for now]")
+
+    UserInputService.InputBegan:Connect(onInputBegan)
+    UserInputService.InputEnded:Connect(onInputEnded)
     
     local function makeTooltip(interest, option)
         interest.InputChanged:connect(function(input)
@@ -665,9 +664,7 @@ do -- // Load
 
    
             option.onStateChanged:Fire(state);
-            print("SetState")
             library.OnFlagChanged:Fire(self);
-            print("SetFlag")
         end
 
         task.defer(function()
@@ -1218,7 +1215,6 @@ do -- // Load
             end
 
             library.OnFlagChanged:Fire(self)
-            print("SetValue")
         end
 
         task.defer(function()
@@ -1756,7 +1752,6 @@ do -- // Load
             self.callback(value, enter);
 
             library.OnFlagChanged:Fire(self);
-            print("SetValue2")
         end
         task.defer(function()
             if library then
@@ -3285,7 +3280,6 @@ do -- // Load
         end;
 
         library.OnLoad:Fire();
-        print("Fire")
         library.OnLoad:Destroy();
         library.OnLoad = nil;
     end;
