@@ -1,6 +1,6 @@
 local Keybinds = {}
 
-function Keybinds:Setup(Library)
+function Keybinds:Init(Library)
     local KeybindsTab = Library:AddTab("Keybinds")
 
     local ColumnsIndex = 0
