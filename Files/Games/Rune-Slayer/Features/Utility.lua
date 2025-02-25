@@ -136,7 +136,7 @@ function Utility.DisableAmbient(State)
 end
 
 function Utility.DisableShadows(State)
-    Lighting.GlobalShadows = not State
+    Lighting.GlobalShadows = (not State)
 end
 
 return Utility

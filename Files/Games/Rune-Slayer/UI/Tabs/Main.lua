@@ -92,6 +92,12 @@ function Main.Sections:Client(LibraryData)
     })
 
     RemovalSection:AddToggle({
+        text = "Enable No Kill Bricks";
+        callback = Character.NoKillBricks;
+        flag = "NoKillBricksToggle";
+    })
+
+    RemovalSection:AddToggle({
         text = "Enable Temperature Lock";
         tip = "Enable it in the area you want to keep your temperature in [MAY CAUSE PERFORMANCE ISSUES OVER EXTENDED PERIODS OF USE]";
         callback = Utility.TemperatureLock;

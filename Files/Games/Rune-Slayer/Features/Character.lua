@@ -226,4 +226,18 @@ function Character.GodMode(State)
     end
 end
 
+function Character.NoKillBricks(State)
+    local Dangerous = {
+        "lava";
+    }
+    
+    for i, v in next, getinstances() do
+        if (not table.find(Dangerous, v.Name)) then
+            continue
+        end
+
+        v.CanTouch = (not State)
+    end
+end
+
 return Character

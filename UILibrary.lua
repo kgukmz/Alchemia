@@ -188,9 +188,12 @@ do -- // Load
         library.OnKeyRelease:Fire(fastInputObject);
     end;
 
-    UserInputService.InputBegan:Connect(onInputBegan)
-    UserInputService.InputEnded:Connect(onInputEnded)
-
+    print(debug.traceback(), "Keybinds disabled [for now]")
+    --[[
+        UserInputService.InputBegan:Connect(onInputBegan)
+        UserInputService.InputEnded:Connect(onInputEnded)
+    --]]
+    
     local function makeTooltip(interest, option)
         interest.InputChanged:connect(function(input)
             if input.UserInputType.Name == 'MouseMovement' then
