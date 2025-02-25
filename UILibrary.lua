@@ -67,6 +67,7 @@ function Signal:Fire(...)
     self.TotalArgs = select("#", ...)
 
     self.BindableEvent:Fire()
+    task.wait()
 
     self.Arguments = nil
     self.TotalArgs = nil
