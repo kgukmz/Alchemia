@@ -13,6 +13,7 @@ AddTab(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", "Main.lua"))
 
 function Menu:Setup(Library)
     self.Library = Library
+    Library.gameName = "Rune-Slayer"
 
     local LocalPlayer = cloneref(game:GetService("Players")).LocalPlayer
 

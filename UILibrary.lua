@@ -120,6 +120,7 @@ do -- // Load
 
     local mouseMovement = Enum.UserInputType.MouseMovement;
     local configNameTest = ""
+    local configListTest = ""
 
     --Locals
     local dragging, dragInput, dragStart, startPos, dragObject
@@ -3254,7 +3255,7 @@ do -- // Load
             end;
         end);
 
-        local Success, configData = pcall(readFileAndDecodeIt, library.foldername .. '/' .. library.fileext);
+        local configData = readFileAndDecodeIt(library.foldername .. "/" .. library.fileext)
 
         if (configData) then
             library.configVars = configData;
@@ -3305,7 +3306,8 @@ do -- // Load
         local function showBasePrompt(text)
             local r, g, b = library.round(library.flags.menuAccentColor);
 
-            local configName = text == 'create' and library.flags.configName or library.flags.configList;
+            --local configName = text == 'create' and library.flags.configName or library.flags.configList;
+            local configName = text == 'create' and configNameTest or configListTest
             local trimedValue = configName:gsub('%s', '');
 
             if(trimedValue == '') then
@@ -3512,6 +3514,9 @@ do -- // Load
         configSection:AddBox({
             text = 'Config Name',
             skipflag = true,
+            callback = function(newValue)
+                configNameTest = newValue
+            end
         })
 
         local function getAllConfigs()
@@ -3550,16 +3555,19 @@ do -- // Load
             value = '',
             flag = 'Config List',
             values = library:GetConfigs(),
+            callback = function(Selected)
+                configListTest = Selected
+            end
         })
 
         configSection:AddButton({
             text = 'Create',
             callback = function()
                 if (showBasePrompt('create')) then
-                    library.options.configList:AddValue(library.flags.configName);
-                    library.options.configList:SetValue(library.flags.configName);
-                    library:SaveConfig(library.flags.configName);
-                    library:LoadConfig(library.flags.configName);
+                    library.options.configList:AddValue(configNameTest);
+                    library.options.configList:SetValue(configNameTest);
+                    library:SaveConfig(configNameTest);
+                    library:LoadConfig(configNameTest);
 
                     updateAllConfigs();
                 end;
@@ -3583,7 +3591,7 @@ do -- // Load
             text = 'Save',
             callback = function()
                 if (showBasePrompt('save')) then
-                    library:SaveConfig(library.flags.configList);
+                    library:SaveConfig(configListTest);
                 end;
             end
         }):AddButton({
@@ -3591,14 +3599,14 @@ do -- // Load
             callback = function()
                 if (showBasePrompt('load')) then
                     library:UpdateConfig(); -- Save config before switching to new one
-                    library:LoadConfig(library.flags.configList);
+                    library:LoadConfig(configListTest);
                 end
             end
         }):AddButton({
             text = 'Delete',
             callback = function()
                 if (showBasePrompt('delete')) then
-                    local Config = library.flags.configList
+                    local Config = configListTest
                     local configFilePath = library.foldername .. '/' .. Config .. '.config' .. library.fileext;
 
                     if table.find(library:GetConfigs(), Config) and isfile(configFilePath) then
@@ -3609,7 +3617,7 @@ do -- // Load
             end
         })
 
-        configSection:AddList({
+        library.options.loadFromList = configSection:AddList({
             text = 'Load From',
             flag = 'Load From List',
             values = getAllConfigs()
