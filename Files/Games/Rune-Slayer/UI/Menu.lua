@@ -21,8 +21,8 @@ function Menu:Setup(Library)
 
     local LocalPlayer = cloneref(game:GetService("Players")).LocalPlayer
 
-    local Old = nil
-    Old = hookmetamethod(game, "__newindex", function(self, ...)
+    local __newindexHook = nil
+    __newindexHook = hookmetamethod(game, "__newindex", function(self, ...)
         local Index = select(1, ...)
         local Value = select(2, ...)
 
@@ -30,11 +30,11 @@ function Menu:Setup(Library)
             local Character = LocalPlayer.Character
         
             if (Character == nil) then
-                return Old(self, ...)
+                return __newindexHook(self, ...)
             end
 
             if (Character:FindFirstChild("Humanoid") == nil) then
-                return Old(self, ...)
+                return __newindexHook(self, ...)
             end
 
             if (self:IsA("Humanoid") == true) then
@@ -48,7 +48,21 @@ function Menu:Setup(Library)
             end
         end
 
-        return Old(self, ...)
+        return __newindexHook(self, ...)
+    end)
+
+    local __indexHook = nil
+    __indexHook = hookmetamethod(game, "__index", function(self, ...)
+        local Index = select(1, ...)
+        local Value = select(2, ...)
+
+        if (not checkcaller()) then
+            if (tostring(self) == "RollDust" and Library.flags["GodModeToggle"] == true) then
+                return nil
+            end
+        end
+
+        return __indexHook(self, ...)
     end)
 
     for i, Tab in self.Tabs do

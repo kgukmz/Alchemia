@@ -108,6 +108,8 @@ function Main.Sections:Client(LibraryData)
         text = "Enable God Mode";
         tip = "[WARNING] This feature is very blatant, it may also cause FPS issues";
         callback = Character.GodMode;
+        skipflag = true;
+        flag = "GodModeToggle";
     })
 
     AddPlaceSpecific(112498449402953, function()
