@@ -11,6 +11,10 @@ end
 
 AddTab(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", "Main.lua"))
 
+
+-- Always init last
+AddTab(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", "Keybinds.lua"))
+
 function Menu:Setup(Library)
     self.Library = Library
     Library.gameName = "Rune-Slayer"
