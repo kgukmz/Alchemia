@@ -20,6 +20,8 @@ function Keybinds:Init(Library)
             local NewSection = Column:AddSection(Index)
 
             rawset(self, Index, NewSection)
+            
+            return NewSection
         end
 
         setmetatable(Sections, Sections_MT)
