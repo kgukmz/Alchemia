@@ -51,20 +51,6 @@ function Menu:Setup(Library)
         return __newindexHook(self, ...)
     end)
 
-    local __indexHook = nil
-    __indexHook = hookmetamethod(game, "__index", function(self, ...)
-        local Index = select(1, ...)
-        local Value = select(2, ...)
-
-        if (not checkcaller()) then
-            if (tostring(self) == "RollDust" and Library.flags["GodModeToggle"] == true) then
-                return nil
-            end
-        end
-
-        return __indexHook(self, ...)
-    end)
-
     for i, Tab in self.Tabs do
         local Success, Error = pcall(Tab.Init, Tab, Library, i)
 

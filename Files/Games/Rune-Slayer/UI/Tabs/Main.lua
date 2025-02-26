@@ -19,6 +19,7 @@ end
 
 local Utility = GetFeature("Utility.lua")
 local Character = GetFeature("Character.lua")
+local Removals = GetFeature("Removals.lua")
 
 function Main.Sections:Movement(LibraryData)
     local Columns = LibraryData.Columns
@@ -87,13 +88,13 @@ function Main.Sections:Client(LibraryData)
 
     RemovalSection:AddToggle({
         text = "Enable No Fall Damage";
-        callback = Character.NoFallDamage;
+        callback = Removals.NoFallDamage;
         flag = "NoFallDamageToggle";
     })
 
     RemovalSection:AddToggle({
         text = "Enable No Kill Bricks";
-        callback = Character.NoKillBricks;
+        callback = Removals.NoKillBricks;
         flag = "NoKillBricksToggle";
     })
 
@@ -104,23 +105,7 @@ function Main.Sections:Client(LibraryData)
         flag = "TemperatureLockToggle";
     })
 
-    RemovalSection:AddToggle({
-        text = "Enable God Mode";
-        tip = "[WARNING] This feature is very blatant, it may also cause FPS issues";
-        callback = Character.GodMode;
-        skipflag = true;
-        flag = "GodModeToggle";
-    })
-
-    AddPlaceSpecific(112498449402953, function()
-        RemovalSection:AddButton({
-            text = "Skip Tutorial";
-            tip = "Automatically skip tutorial";
-            callback = Utility.ResetCharacter;
-        })
-    end)
-
-    RemovalSection:AddDivider({text = "_"})
+    RemovalSection:AddDivider("Reset Utilities")
 
     RemovalSection:AddToggle({
         text = "Ignore Danger";
@@ -132,6 +117,14 @@ function Main.Sections:Client(LibraryData)
         text = "Reset Character";
         callback = Utility.ResetCharacter;
     })
+    
+    AddPlaceSpecific(112498449402953, function()
+        RemovalSection:AddButton({
+            text = "Skip Tutorial";
+            tip = "Automatically skip tutorial";
+            callback = Utility.ResetCharacter;
+        })
+    end)
 end
 
 function Main.Sections:World(LibraryData)

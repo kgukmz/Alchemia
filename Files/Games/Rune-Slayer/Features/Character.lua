@@ -4,7 +4,6 @@ local ConnectionModule = directRequire("Files/Modules/Connections.lua")
 
 local Players = GetService("Players")
 local RunService = GetService("RunService")
-local CollectionService = GetService("CollectionService")
 local UserInputService = GetService("UserInputService")
 local ReplicatedStorage = GetService("ReplicatedStorage")
 
@@ -22,11 +21,7 @@ local BodyParts = {
 
 local Network = require(ReplicatedStorage.Modules.Network)
 
-local FakeNoFall = nil;
-
 local NoClipConnection = ConnectionModule.new(RunService.Stepped)
-local GodModeConnection = ConnectionModule.new(RunService.Heartbeat)
-local NoFallConnection = ConnectionModule.new(RunService.Heartbeat)
 local WalkSpeedConnection = ConnectionModule.new(RunService.Heartbeat)
 local JumpHeightConnection = ConnectionModule.new(RunService.Heartbeat)
 
@@ -144,39 +139,6 @@ function Character.NoClip(State)
     end
 end
 
-function Character.NoFallDamage(State)
-    if (State == true) then
-        local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-
-        if (Character == nil) then
-            return
-        end
-
-        FakeNoFall = Instance.new("Accessory")
-        FakeNoFall.Name = "NoFall"
-        FakeNoFall.Parent = Character
-
-        NoFallConnection:Connect(function()
-            local Character = LocalPlayer.Character
-    
-            if (Character == nil) then
-                return
-            end
-
-            if (FakeNoFall.Parent ~= Character) then
-                FakeNoFall.Parent = Character
-            end
-        end)
-    else
-        NoFallConnection:Disconnect()
-
-        if (FakeNoFall ~= nil) then
-            FakeNoFall:Destroy()
-            FakeNoFall = nil;
-        end
-    end
-end
-
 function Character.InfiniteJump(State)
     if (State == false) then
         return
@@ -203,41 +165,6 @@ function Character.InfiniteJump(State)
             HumanoidRootPart.Velocity = Vector3.new(RootVelocity.X, JumpVelocity, RootVelocity.Z)
         end
     until Library.flags["InfiniteJumpToggle"] == false
-end
-
-function Character.GodMode(State)
-    if (State == true) then
-        GodModeConnection:Connect(function()
-            local Character = LocalPlayer.Character
-
-            if (Character == nil) then
-                return
-            end
-
-            Network.connect("MasterEvent", "FireServer", Character, {
-                Config = "Roll";
-            })
-            Network.connect("MasterEvent", "FireServer", Character, {
-                Config = "RollCancel";
-            })
-        end)
-    else
-        GodModeConnection:Disconnect()
-    end
-end
-
-function Character.NoKillBricks(State)
-    local Dangerous = {
-        "lava";
-    }
-    
-    for i, v in next, getinstances() do
-        if (not table.find(Dangerous, v.Name)) then
-            continue
-        end
-
-        v.CanTouch = (not State)
-    end
 end
 
 return Character
