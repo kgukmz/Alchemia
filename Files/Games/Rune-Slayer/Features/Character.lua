@@ -177,7 +177,7 @@ function Character.AutoSprint(State)
             end
 
             if (Input.KeyCode == Enum.KeyCode.W) then
-                VirtualInputManager:SendKeyEvent(UserInputService:IsKeyDown(Input.KeyCode), Enum.KeyCode.W, false, game)
+                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
             end
         end)
     else
