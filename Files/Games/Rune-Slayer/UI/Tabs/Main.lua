@@ -149,7 +149,7 @@ function Main.Sections:World(LibraryData)
 
     local FullbrightToggle = WorldSection:AddToggle({
         text = "Disable Ambient";
-        callback = Utility.DisableAmbient;
+        --callback = Utility.DisableAmbient;
         flag = "DisableAmbientToggle";
     })
 
