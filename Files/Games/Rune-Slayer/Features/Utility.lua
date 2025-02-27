@@ -2,6 +2,7 @@ local Utility = {}
 
 local ConnectionModule = directRequire("Files/Modules/Connections.lua")
 
+local HttpService = game:GetService("HttpService")
 local Players = GetService("Players")
 local Lighting = GetService("Lighting")
 local RunService = GetService("RunService")
@@ -16,7 +17,6 @@ local OldAmbient = nil
 
 local FogEndChangedConnection = ConnectionModule.new(Lighting:GetPropertyChangedSignal("FogEnd"))
 local AmbientChangedConnection = ConnectionModule.new(Lighting:GetPropertyChangedSignal("Ambient"))
-local UpdateAmbientConnection = ConnectionModule.new(RunService.Heartbeat)
 
 local AtmosphereConnection = nil
 
@@ -57,7 +57,7 @@ end
 
 function Utility.ServerHop()
     local ServersAPI = "https://games.roblox.com/v1/games/99995671928896/servers/0?sortOrder=2&excludeFullGames=false&limit=50"
-    local ServersResponse = http_get({
+    local ServersResponse = http_request({
         Url = ServersAPI;
         Method = "GET";
     })
@@ -67,12 +67,13 @@ function Utility.ServerHop()
         return
     end
 
+    local ServerData = HttpService:JSONDecode(ServersResponse.Data)
     local JobIds = {}
 
-    for i, ServerData in next, ServersResponse.Body do
-        local MaxPlayers = ServerData.maxPlayers
-        local Playing = ServerData.playing
-        local JobId = ServerData.id;
+    for i, Server in next, ServerData do
+        local MaxPlayers = Server.maxPlayers
+        local Playing = Server.playing
+        local JobId = Server.id;
 
         if (Playing == MaxPlayers) then
             continue
