@@ -119,6 +119,12 @@ function Main.Sections:Client(LibraryData)
         flag = "IgnoreDangerToggle";
     })
 
+    RemovalSection:AddToggle({
+        text = "Auto Respawn";
+        tip = "Automatically respawns for you once the prompt appears";
+        flag = "AutoRespawnToggle";
+    })
+
     RemovalSection:AddButton({
         text = "Reset Character";
         callback = Utility.ResetCharacter;
@@ -168,6 +174,38 @@ function Main.Sections:World(LibraryData)
         flag = "AmbientIntensitySlider";
     })
     --]]
+end
+
+function Main.Sections:Teleports(LibraryData)
+    local Columns = LibraryData.Columns
+
+    local LeftColumn = select(1, unpack(Columns))
+    local RightColumn = select(2, unpack(Columns))
+
+    local TeleportsSection = RightColumn:AddSection("Teleports")
+
+    local NPCsTable = {} do
+        local NPCs = workspace:WaitForChild("Effects"):FindFirstChild("NPCS")
+
+        NPCsTable = NPCs:GetChildren()
+
+        NPCs.ChildAdded:Connect(function()
+            NPCsTable = NPCs:GetChildren()
+        end)
+
+        NPCs.ChildRemoved:Connect(function()
+            NPCsTable = NPCs:GetChildren()
+        end)
+    end
+
+    local NPCsList = TeleportsSection:AddList({
+        text = "WaypointList";
+        values = NPCsTable;
+    })
+
+    TeleportsSection:AddButton({
+        text = "Teleport";
+    })
 end
 
 function Main.Sections:Waypoints(LibraryData)
@@ -255,6 +293,7 @@ function Main:Init(Library, TabIndex)
     self.Sections:World(LibraryData)
 
     -- // Right Columns
+    self.Sections:Teleports(LibraryData)
     self.Sections:Waypoints(LibraryData)
     self.Sections:Utility(LibraryData)
 
