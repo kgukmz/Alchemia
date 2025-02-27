@@ -67,7 +67,7 @@ function Utility.ServerHop()
         return
     end
 
-    local ServerData = HttpService:JSONDecode(ServersResponse.Data)
+    local ServerData = HttpService:JSONDecode(ServersResponse.Body)
     local JobIds = {}
 
     for i, Server in next, ServerData do
