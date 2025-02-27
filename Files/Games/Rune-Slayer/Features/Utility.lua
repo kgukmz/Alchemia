@@ -128,7 +128,7 @@ function Utility.AutoRespawn(State)
             return
         end
 
-        local TextLabel = Child:FindFirstChild("TextLabel")
+        local TextLabel = MainFrame:FindFirstChild("TextLabel")
 
         if (TextLabel and string.find(TextLabel.Text, "You have died.")) then
             print("Ok")
