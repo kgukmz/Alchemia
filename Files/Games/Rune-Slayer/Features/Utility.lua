@@ -56,7 +56,7 @@ function Utility.ResetCharacter()
 end
 
 function Utility.ServerHop()
-    local ServersAPI = "https://games.roblox.com/v1/games/99995671928896/servers/0?sortOrder=2&excludeFullGames=true&limit=200"
+    local ServersAPI = "https://games.roblox.com/v1/games/99995671928896/servers/0?sortOrder=2&excludeFullGames=true&limit=100"
     local ServersResponse = http_request({
         Url = ServersAPI;
         Method = "GET";
