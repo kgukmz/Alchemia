@@ -5,6 +5,7 @@ local ConnectionModule = directRequire("Files/Modules/Connections.lua")
 local Players = GetService("Players")
 local Lighting = GetService("Lighting")
 local RunService = GetService("RunService")
+local TeleportService = GetService("TeleportService")
 
 local LocalPlayer = Players.LocalPlayer
 
@@ -52,6 +53,36 @@ function Utility.ResetCharacter()
     end
 
     CharacterHead:Destroy()
+end
+
+function Utility.ServerHop()
+    local ServersAPI = "https://games.roblox.com/v1/games/99995671928896/servers/0?sortOrder=2&excludeFullGames=false&limit=50"
+    local ServersResponse = http_get({
+        Url = ServersAPI;
+        Method = "GET";
+    })
+
+    if (not ServersResponse.Success) then
+        warn(string.format("Unable to fetch API: %s", ServersResponse.StatusCode))
+        return
+    end
+
+    local JobIds = {}
+
+    for i, ServerData in next, ServersResponse.Body do
+        local MaxPlayers = ServerData.maxPlayers
+        local Playing = ServerData.playing
+        local JobId = ServerData.id;
+
+        if (Playing == MaxPlayers) then
+            continue
+        end
+
+        table.insert(JobIds, JobId)
+    end
+
+    local JobId = JobIds[math.random(1, #JobIds)]
+    TeleportService:TeleportToPlaceInstance(game.PlaceId, JobId, LocalPlayer)
 end
 
 function Utility.TemperatureLock(State)

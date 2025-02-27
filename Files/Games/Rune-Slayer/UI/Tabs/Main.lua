@@ -194,6 +194,32 @@ function Main.Sections:Waypoints(LibraryData)
     })
 end
 
+function Main.Sections.Utility(LibraryData)
+    local Columns = LibraryData.Columns
+
+    local LeftColumn = select(1, unpack(Columns))
+    local RightColumn = select(2, unpack(Columns))
+
+    local UtilitySection = RightColumn:AddSection("Utility")
+
+    local MaxPingToggle = UtilitySection:AddToggle({
+        text = "Filter Ping";
+        flag = "FilterPingToggle"
+    })
+
+    MaxPingToggle:AddSlider({
+        text = "Max Ping";
+        value = 0;
+        min = 0;
+        max = 200;
+        flag = "MaxPingSlider";
+    })
+
+    UtilitySection:AddButton({
+        text = "Server Hop";
+        callback = Utility.ServerHop;
+    })
+end
 
 function Main:Init(Library, TabIndex)
     local MainTab = Library:AddTab("Main", TabIndex)

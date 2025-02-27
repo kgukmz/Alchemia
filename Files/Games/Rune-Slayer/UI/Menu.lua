@@ -2,6 +2,8 @@ local Menu = {
     Tabs = {}
 }
 
+local LocalPlayer = GetService("Players").LocalPlayer
+
 function AddTab(TabName)
     local Len = #Menu.Tabs
 
@@ -18,8 +20,6 @@ AddTab(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", "Keybinds.lua")
 function Menu:Setup(Library)
     self.Library = Library
     Library.gameName = "Rune-Slayer"
-
-    local LocalPlayer = cloneref(game:GetService("Players")).LocalPlayer
 
     local __newindexHook = nil
     __newindexHook = hookmetamethod(game, "__newindex", function(self, ...)
