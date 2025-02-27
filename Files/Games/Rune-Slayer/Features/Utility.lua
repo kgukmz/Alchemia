@@ -63,7 +63,10 @@ function Utility.ServerHop()
     })
 
     if (not ServersResponse.Success) then
-        warn(string.format("Unable to fetch API: %s", ServersResponse.StatusCode))
+        local StatusCode = ServersResponse.StatusCode
+        local StatusMessage = ServersResponse.StatusMessage
+
+        warn(`Unable to fetch API: {StatusCode} [{StatusMessage}]`)
         return
     end
 
