@@ -1,41 +1,34 @@
-local Lighting = GetService("Lighting")
+local NewIndex = {
+    NewHook = nil;
+}
+
 local Players = GetService("Players")
 
 local LocalPlayer = Players.LocalPlayer
 
-local newIndex = {
-    NewHook = nil;
-}
-
-function newIndex.Hook(self, ...)
+function NewIndex.__newIndex(self, ...)
     local Index = select(1, ...)
     local Value = select(2, ...)
     
-    if (not checkcaller()) then
-        if (self == Lighting and Index == "Ambient" and Library.flags["DisableAmbientToggle"] == true) then
-            Value = Color3.fromRGB(220, 220, 220)
-        end  
-
+    if (not checkcaller() == true) then
         if (tostring(self) == "Humanoid") then
             local Character = LocalPlayer.Character
 
             if (Character == nil or Character:FindFirstChild("Humanoid") == nil) then
-                return newIndex.NewHook(self, Index, Value)
-            end 
+                return NewIndex.NewHook(self, ...)
+            end
 
-            if (Index == "WalkSpeed" and Library.flags["WalkSpeedToggle"] == true) then
+            if (Index == "WalkSpeed" and Library.flags["WalkSpeedToggle"]) then
                 return Value
             end
 
-            if (Index == "JumpHeight" and Library.flags["JumpHeight"] == true) then
+            if (Index == "JumpHeight" and Library.flags["JumpHeightToggle"]) then
                 return Value
             end
         end
     end
 
-    return newIndex.NewHook(self, Index, Value)
+    return NewIndex.NewHook(self, ...)
 end
 
-hookmetamethod(game, "__newindex", newIndex.Hook)
-
-return newIndex
+return NewIndex
