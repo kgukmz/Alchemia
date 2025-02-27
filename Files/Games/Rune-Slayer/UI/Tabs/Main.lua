@@ -194,7 +194,7 @@ function Main.Sections:Waypoints(LibraryData)
     })
 end
 
-function Main.Sections.Utility(LibraryData)
+function Main.Sections:Utility(LibraryData)
     local Columns = LibraryData.Columns
 
     local LeftColumn = select(1, unpack(Columns))
