@@ -6,6 +6,7 @@ local Players = GetService("Players")
 local RunService = GetService("RunService")
 local UserInputService = GetService("UserInputService")
 local ReplicatedStorage = GetService("ReplicatedStorage")
+local VirtualInputManager = GetService("VirtualInputManager")
 
 local LocalPlayer = Players.LocalPlayer
 local IsTextboxFocused = false
@@ -24,6 +25,7 @@ local Network = require(ReplicatedStorage.Modules.Network)
 local NoClipConnection = ConnectionModule.new(RunService.Stepped)
 local WalkSpeedConnection = ConnectionModule.new(RunService.Heartbeat)
 local JumpHeightConnection = ConnectionModule.new(RunService.Heartbeat)
+local AutoSprintConnection = ConnectionModule.new(UserInputService.InputBegan)
 
 UserInputService.TextBoxFocused:Connect(function()
     IsTextboxFocused = true;
@@ -165,6 +167,22 @@ function Character.InfiniteJump(State)
             HumanoidRootPart.Velocity = Vector3.new(RootVelocity.X, JumpVelocity, RootVelocity.Z)
         end
     until Library.flags["InfiniteJumpToggle"] == false
+end
+
+function Character.AutoSprint(State)
+    if (State == true) then
+        AutoSprintConnection:Connect(function(Input, GameProcessed)
+            if (GameProcessed) then
+                return
+            end
+
+            if (Input.KeyCode == Enum.KeyCode.W) then
+                VirtualInputManager:SendKeyEvent(UserInputService:IsKeyDown(Input.KeyCode), Enum.KeyCode.W, false, game)
+            end
+        end)
+    else
+        AutoSprintConnection:Disconnect()
+    end
 end
 
 return Character

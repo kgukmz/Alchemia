@@ -70,6 +70,12 @@ function Main.Sections:Movement(LibraryData)
         max = 125;
         flag = "InfiniteJumpSlider";
     })
+
+    MovementSection:AddToggle({
+        text = "Auto Sprint";
+        callback = Character.AutoSprint;
+        flag = "AutoSprintToggle";
+    })
 end
 
 function Main.Sections:Client(LibraryData)
