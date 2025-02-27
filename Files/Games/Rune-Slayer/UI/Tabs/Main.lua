@@ -185,7 +185,17 @@ function Main.Sections:Teleports(LibraryData)
     local TeleportsSection = RightColumn:AddSection("Teleports")
 
     local NPCsTable = {} do
-        local NPCs = workspace:WaitForChild("Effects"):FindFirstChild("NPCS")
+        local Effects = workspace:FindFirstChild("Effects")
+        local NPCs = Effects:FindFirstChild("NPCS")
+
+        if (Effects == nil or NPCs == nil) then
+            repeat
+                task.wait()
+
+                Effects = workspace:FindFirstChild("Effects")
+                NPCs = Effects:FindFirstChild("NPCS")
+            until Effects ~= nil and NPCs ~= nil
+        end
 
         NPCsTable = NPCs:GetChildren()
 
