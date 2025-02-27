@@ -66,7 +66,7 @@ function Utility.ServerHop()
         local StatusCode = ServersResponse.StatusCode
         local StatusMessage = ServersResponse.StatusMessage
 
-        warn(`Unable to fetch API: {StatusCode} [{StatusMessage}]`)
+        warn(string.format("Unable to fetch API: %s [%s]", StatusCode, StatusMessage))
         return
     end
 
@@ -88,8 +88,19 @@ function Utility.ServerHop()
         table.insert(JobIds, JobId)
     end
 
+    if (#JobIds == 0) then
+        return
+    end
+
     local JobId = JobIds[math.random(1, #JobIds)]
-    TeleportService:TeleportToPlaceInstance(game.PlaceId, JobId, LocalPlayer)
+
+    local Success, Error = pcall(function()
+        TeleportService:TeleportToPlaceInstance(game.PlaceId, JobId, LocalPlayer)
+    end)
+
+    if (not Success) then
+        Library:ShowMessage("Failed to server hop:", Error)
+    end
 end
 
 function Utility.TemperatureLock(State)
