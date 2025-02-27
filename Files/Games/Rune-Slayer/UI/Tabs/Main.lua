@@ -122,6 +122,7 @@ function Main.Sections:Client(LibraryData)
     RemovalSection:AddToggle({
         text = "Auto Respawn";
         tip = "Automatically respawns for you once the prompt appears";
+        callback = Utility.AutoRespawn;
         flag = "AutoRespawnToggle";
     })
 

@@ -7,8 +7,10 @@ local Players = GetService("Players")
 local Lighting = GetService("Lighting")
 local RunService = GetService("RunService")
 local TeleportService = GetService("TeleportService")
+local VirtualInputManager = GetService("VirtualInputManager")
 
 local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer.PlayerGui
 
 local AreaChangeEvent = nil
 local OldDensity = nil
@@ -17,6 +19,7 @@ local OldAmbient = nil
 
 local FogEndChangedConnection = ConnectionModule.new(Lighting:GetPropertyChangedSignal("FogEnd"))
 local AmbientChangedConnection = ConnectionModule.new(Lighting:GetPropertyChangedSignal("Ambient"))
+local GuiAddedConnection = ConnectionModule.new(PlayerGui:FindFirstChild("InfoOverlays").ChildAdded)
 
 local AtmosphereConnection = nil
 
@@ -33,6 +36,12 @@ task.defer(function()
 
     AreaChangeEvent = AreaChangeRemote
 end)
+
+local function SendKeyEvent(Key)
+    VirtualInputManager:SendKeyEvent(true, Key, false, game)
+    task.wait()
+    VirtualInputManager:SendKeyEvent(false, Key, false, game)
+end
 
 function Utility.ResetCharacter()
     local Character = LocalPlayer.Character
@@ -101,6 +110,34 @@ function Utility.ServerHop()
     if (not Success) then
         Library:ShowMessage("Failed to server hop:", Error)
     end
+end
+
+function Utility.AutoRespawn(State)
+    if (State == false) then
+        GuiAddedConnection:Disconnect()
+    end
+
+    GuiAddedConnection:Connect(function(Child)
+        if (Child.ClassName ~= "ImageLabel") then
+            return
+        end
+
+        local MainFrame = Child:FindFirstChild("MainFrame")
+
+        if (MainFrame == nil) then
+            return
+        end
+
+        local TextLabel = Child:FindFirstChild("TextLabel")
+
+        if (TextLabel and string.find(TextLabel.Text, "You have died.")) then
+            SendKeyEvent(Enum.KeyCode.Hash)
+            task.wait()
+            SendKeyEvent(Enum.KeyCode.Down)
+            task.wait()
+            SendKeyEvent(Enum.KeyCode.Return)
+        end
+    end)
 end
 
 function Utility.TemperatureLock(State)
