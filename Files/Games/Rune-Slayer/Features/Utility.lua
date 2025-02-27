@@ -131,6 +131,7 @@ function Utility.AutoRespawn(State)
         local TextLabel = Child:FindFirstChild("TextLabel")
 
         if (TextLabel and string.find(TextLabel.Text, "You have died.")) then
+            print("Ok")
             SendKeyEvent(Enum.KeyCode.Hash)
             task.wait()
             SendKeyEvent(Enum.KeyCode.Down)
