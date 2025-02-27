@@ -56,7 +56,7 @@ function Utility.ResetCharacter()
 end
 
 function Utility.ServerHop()
-    local ServersAPI = "https://games.roblox.com/v1/games/99995671928896/servers/0?sortOrder=2&excludeFullGames=false&limit=50"
+    local ServersAPI = "https://games.roblox.com/v1/games/99995671928896/servers/0?sortOrder=2&excludeFullGames=true&limit=200"
     local ServersResponse = http_request({
         Url = ServersAPI;
         Method = "GET";
@@ -70,7 +70,7 @@ function Utility.ServerHop()
     local ServerData = HttpService:JSONDecode(ServersResponse.Body)
     local JobIds = {}
 
-    for i, Server in next, ServerData do
+    for i, Server in next, ServerData.data do
         local MaxPlayers = Server.maxPlayers
         local Playing = Server.playing
         local Ping = Server.ping
@@ -80,10 +80,6 @@ function Utility.ServerHop()
             if (Ping > Library.flags["FilterPingSlider"]) then
                 continue
             end
-        end
-
-        if (Playing == MaxPlayers) then
-            continue
         end
 
         table.insert(JobIds, JobId)
