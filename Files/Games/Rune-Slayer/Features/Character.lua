@@ -171,13 +171,20 @@ end
 
 function Character.AutoSprint(State)
     if (State == true) then
+        local LastPressed = 0
+
         AutoSprintConnection:Connect(function(Input, GameProcessed)
             if (GameProcessed) then
                 return
             end
 
+            if (time() - LastPressed < 0.1) then
+                return
+            end
+
             if (Input.KeyCode == Enum.KeyCode.W) then
-                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
+                LastPressed = time()
+                VirtualInputManager:SendKeyEvent(UserInputService:IsKeyDown(Input.KeyCode), Enum.KeyCode.W, false, game)
             end
         end)
     else
