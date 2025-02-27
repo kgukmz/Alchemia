@@ -250,6 +250,7 @@ function Main:Init(Library, TabIndex)
 
     -- // Right Columns
     self.Sections:Waypoints(LibraryData)
+    self.Sections:Utility(LibraryData)
 
     print("All tabs loaded")
 end
