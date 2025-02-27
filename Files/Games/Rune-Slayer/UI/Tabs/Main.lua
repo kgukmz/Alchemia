@@ -212,7 +212,7 @@ function Main.Sections:Utility(LibraryData)
         value = 0;
         min = 0;
         max = 200;
-        flag = "MaxPingSlider";
+        flag = "FilterPingSlider";
     })
 
     UtilitySection:AddButton({

@@ -73,7 +73,14 @@ function Utility.ServerHop()
     for i, Server in next, ServerData do
         local MaxPlayers = Server.maxPlayers
         local Playing = Server.playing
-        local JobId = Server.id;
+        local Ping = Server.ping
+        local JobId = Server.id
+
+        if (Library.flags["FilterPingToggle"] == true) then
+            if (Ping > Library.flags["FilterPingSlider"]) then
+                continue
+            end
+        end
 
         if (Playing == MaxPlayers) then
             continue
