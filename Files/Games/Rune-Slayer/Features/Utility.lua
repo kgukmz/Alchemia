@@ -130,16 +130,19 @@ function Utility.AutoRespawn(State)
 
         local TextLabel = MainFrame:FindFirstChild("TextLabel")
 
-        print(TextLabel)
-        print(TextLabel and TextLabel.Text or "dd")
-
         if (TextLabel and string.find(TextLabel.Text, "You have died.")) then
-            print("Ok")
-            SendKeyEvent(Enum.KeyCode.Hash)
-            task.wait()
-            SendKeyEvent(Enum.KeyCode.Down)
-            task.wait()
-            SendKeyEvent(Enum.KeyCode.Return)
+            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Hash, false, game)
+            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Hash, false, game)
+
+            task.wait(0.1)
+
+            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Down, false, game)
+            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Down, false, game)
+            
+            task.wait(0.1)
+            
+            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
         end
     end)
 end
