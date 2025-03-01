@@ -2,6 +2,7 @@ local Movement = {}
 
 local MaidModule = directRequire("Files/Modules/Maid.lua")
 
+local CollectionService = GetService("CollectionService")
 local RunService = GetService("RunService")
 local Players = GetService("Players")
 
@@ -33,12 +34,12 @@ function Movement.Speedhack(State)
         if (not Maid.SpeedBodyVelocity) then
             Maid.SpeedBodyVelocity = Instance.new("BodyVelocity")
             Maid.SpeedBodyVelocity.MaxForce = Vector3.new(100000, 0, 100000)
-
-            Maid.Test = Maid.SpeedBodyVelocity:GetPropertyChangedSignal("Parent"):Connect(function()
-                print("bro why?", Maid.SpeedBodyVelocity.Parent)
-            end)
         end
         
+        if (not CollectionService:HasTag(Maid.SpeedBodyVelocity, "Whitelisted")) then
+            CollectionService:AddTag(Maid.SpeedBodyVelocity, "Whitelisted")
+        end
+
         Maid.SpeedBodyVelocity.Parent = HumanoidRootPart
         
         if (Humanoid.MoveDirection.Magnitude ~= 0) then

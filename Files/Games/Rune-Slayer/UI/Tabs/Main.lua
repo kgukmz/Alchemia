@@ -31,6 +31,7 @@ function Main.Sections:Movement(LibraryData)
     local SpeedToggle = MovementSection:AddToggle({
         text = "Speed";
         callback = Movement.Speedhack;
+        tip = "Change your walkspeed";
         flag = "SpeedToggle";
     })
 
