@@ -29,9 +29,11 @@ function Menu:Setup(Library)
     self.Library = Library
     Library.gameName = "Rune-Slayer"
 
+    --[[
     do -- // Load Hooks
         NewIndex.NewHook = hookmetamethod(game, "__newindex", NewIndex.__newIndex)
     end
+    --]]
     
     for i, Tab in self.Tabs do
         local Success, Error = pcall(Tab.Init, Tab, Library, i)

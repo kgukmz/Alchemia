@@ -30,9 +30,11 @@ function Movement.Speedhack(State)
             return
         end
 
-        Maid.SpeedBodyVelocity = Maid.SpeedBodyVelocity or Instance.new("BodyVelocity")
-        Maid.SpeedBodyVelocity.MaxForce = Vector3.new(100000, 0, 100000)
-
+        if (not Maid.SpeedBodyVelocity) then
+            Maid.SpeedBodyVelocity = Instance.new("BodyVelocity")
+            Maid.SpeedBodyVelocity.MaxForce = Vector3.new(100000, 0, 100000)
+        end
+        
         Maid.SpeedBodyVelocity.Parent = HumanoidRootPart
         
         if (Humanoid.MoveDirection.Magnitude ~= 0) then
