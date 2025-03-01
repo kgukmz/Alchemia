@@ -61,27 +61,30 @@ function Movement.InfiniteJump(State)
             return
         end
 
-        if (Input.KeyCode == Enum.KeyCode.Space) then
-            while UserInputService:IsKeyDown(Input.KeyCode) do
-                local Character = LocalPlayer.Character
-
-                if (Character == nil) then
-                    return
-                end
-
-                local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
-            
-                if (HumanoidRootPart == nil) then
-                    return
-                end
-
-                local OldVelocity = HumanoidRootPart.Velocity
-                local NewVelocity = Vector3.new(OldVelocity.X, Library.flags["InfiniteJumpSlider"], OldVelocity.Z)
-                
-                HumanoidRootPart.Velocity = NewVelocity
-                task.wait()
-            end
+        if (Input.KeyCode ~= Enum.KeyCode.Space) then
+            return
         end
+
+        repeat
+            local Character = LocalPlayer.Character
+
+            if (Character == nil) then
+                return
+            end
+
+            local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+
+            if (HumanoidRootPart ~= nil) then
+                local OldVelocity = HumanoidRootPart.Velocity
+                local VelX = OldVelocity.X
+                local VelY = Library.flags["InfiniteJumpSlider"]
+                local VelZ = OldVelocity.Z
+
+                HumanoidRootPart.Velocity = Vector3.new(VelX, VelY, Velz)
+            end
+
+            task.wait()
+        until (UserInputService:IsKeyDown(Input.KeyCode) == false)
     end)
 end
 
