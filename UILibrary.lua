@@ -2921,7 +2921,7 @@ do -- // Load
         if RunService:IsStudio() then
             self.base.Parent = script.Parent.Parent
         else
-            if(gethuizz) then
+            if(gethui) then
                 self.base.Parent = gethui();
             else
                 local protectgui = protect_gui or protect_gui or function() end
