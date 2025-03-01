@@ -2925,7 +2925,7 @@ do -- // Load
                 self.base.Parent = gethui();
             else
                 local protectgui = protect_gui or protect_gui or function() end
-                pcall(syn.protect_gui, self.base);
+                pcall(protectgui, self.base);
                 self.base.Parent = CoreGui;
             end;
         end
