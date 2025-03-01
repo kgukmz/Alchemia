@@ -7,7 +7,7 @@ local LocalPlayer = GetService("Players").LocalPlayer
 function AddTab(TabName)
     local Len = #Menu.Tabs
 
-    local TabModule = directRequire(TabName)
+    local TabModule = directRequire(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", TabName))
     Menu.Tabs[Len + 1] = TabModule
 end
 
@@ -17,11 +17,11 @@ function GetHookModule(Hook)
     return Path
 end
 
-AddTab(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", "Main.lua"))
-
+AddTab("Main.lua")
+--AddTab("Automation.lua")
 
 -- Always init last
-AddTab(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", "Keybinds.lua"))
+AddTab("Keybinds.lua")
 
 local NewIndex = GetHookModule("NewIndex.lua")
 
