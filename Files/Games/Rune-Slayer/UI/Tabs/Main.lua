@@ -31,7 +31,7 @@ function Main.Sections:Movement(LibraryData)
     local SpeedToggle = MovementSection:AddToggle({
         text = "Speed";
         callback = Movement.Speedhack;
-        tip = "Change your walkspeed";
+        tip = "Change your walkspeed [FIX LATER]";
         flag = "SpeedToggle";
     })
 
@@ -41,6 +41,21 @@ function Main.Sections:Movement(LibraryData)
         min = 0;
         max = 200;
         flag = "SpeedSlider";
+    })
+
+    local InfiniteJumpToggle = MovementSection:AddToggle({
+        text = "Infinite Jump";
+        callback = Movement.InfiniteJump;
+        tip = "Allows you to infinitely jump [HOLD SPACE]";
+        flag = "InfiniteJumpToggle";
+    })
+
+    InfiniteJumpToggle:AddSlider({
+        text = "Velocity";
+        default = 0;
+        min = 0;
+        max = 200;
+        flag = "InfiniteJumpSlider";
     })
 end
 
