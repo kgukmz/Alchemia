@@ -80,7 +80,7 @@ function Movement.InfiniteJump(State)
                 local VelY = Library.flags["InfiniteJumpSlider"]
                 local VelZ = OldVelocity.Z
 
-                HumanoidRootPart.Velocity = Vector3.new(VelX, VelY, Velz)
+                HumanoidRootPart.Velocity = Vector3.new(VelX, VelY, VelZ)
             end
 
             task.wait()
