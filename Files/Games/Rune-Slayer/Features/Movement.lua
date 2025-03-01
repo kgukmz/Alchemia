@@ -33,6 +33,10 @@ function Movement.Speedhack(State)
         if (not Maid.SpeedBodyVelocity) then
             Maid.SpeedBodyVelocity = Instance.new("BodyVelocity")
             Maid.SpeedBodyVelocity.MaxForce = Vector3.new(100000, 0, 100000)
+
+            Maid.Test = Maid.SpeedBodyVelocity:GetPropertyChangedSignal("Parent"):Connect(function()
+                print("bro why?", Maid.SpeedBodyVelocity.Parent)
+            end)
         end
         
         Maid.SpeedBodyVelocity.Parent = HumanoidRootPart

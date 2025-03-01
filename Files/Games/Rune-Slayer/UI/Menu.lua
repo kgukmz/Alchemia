@@ -23,7 +23,7 @@ AddTab("Main.lua")
 -- Always init last
 AddTab("Keybinds.lua")
 
-local NewIndex = GetHookModule("NewIndex.lua")
+--local NewIndex = GetHookModule("NewIndex.lua")
 
 function Menu:Setup(Library)
     self.Library = Library
