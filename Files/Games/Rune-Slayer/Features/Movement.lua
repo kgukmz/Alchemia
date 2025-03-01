@@ -13,6 +13,7 @@ function Movement.Speedhack(State)
     if (State == false) then
         Maid.SpeedBodyVelocity = nil
         Maid.SpeedConnection = nil
+        return
     end
 
     Maid.SpeedConnection = RunService.Heartbeat:Connect(function()
