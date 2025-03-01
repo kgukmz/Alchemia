@@ -41,6 +41,7 @@ function Movement.Speedhack(State)
                 end
                 
                 print("Bro why?", Maid.SpeedBodyVelocity.Parent)
+                print(Maid.SpeedBodyVelocity)
             end)
         end
         
