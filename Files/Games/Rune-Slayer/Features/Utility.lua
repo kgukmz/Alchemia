@@ -1,6 +1,6 @@
 local Utility = {}
 
-local ConnectionModule = directRequire("Files/Modules/Connections.lua")
+local ConnectionModule = require("Files/Modules/Connections.lua")
 
 local HttpService = game:GetService("HttpService")
 local Players = GetService("Players")

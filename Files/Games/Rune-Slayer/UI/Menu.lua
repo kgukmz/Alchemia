@@ -3,16 +3,20 @@ local Menu = {
 }
 
 function AddTab(TabName)
-    local Len = #Menu.Tabs
+    local TabModule = require(("Files/Games/%s/UI/Tabs/%s"):format(
+        "Rune-Slayer", TabName
+    ))
 
-    local TabModule = require(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", TabName))
-    Menu.Tabs[Len + 1] = TabModule
+    Menu.Tabs[#Menu.Tabs+1] = TabModule
+    return true
 end
 
 function GetHookModule(Hook)
-    local Path = require(string.format("Files/Games/%s/Features/Hooks/%s", "Rune-Slayer", Hook))
+    local HookModule = require(("Files/Games/%s/Features/Hooks/%s"):format(
+        "Rune-Slayer", Hook
+    ))
 
-    return Path
+    return HookModule
 end
 
 AddTab("Main.lua")

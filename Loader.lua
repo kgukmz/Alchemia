@@ -4,9 +4,14 @@ xpcall(function()
         Method = "GET";
     })
 
+    if (not Request.Success) then
+        error(("Status Code [%s]"):format(Request.StatusCode))
+        return
+    end
+
     loadstring(Request.Body, "Loader")()
 end, function(Error)
-    warn(("Error setting up: %s"):format(
+    warn(("[S] Error setting up environment: %s"):format(
         Error
     ))
 end)

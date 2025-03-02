@@ -1,6 +1,6 @@
 local Removals = {}
 
-local ConnectionModule = directRequire("Files/Modules/Connections.lua")
+local ConnectionModule = require("Files/Modules/Connections.lua")
 
 local Players = GetService("Players")
 local RunService = GetService("RunService")

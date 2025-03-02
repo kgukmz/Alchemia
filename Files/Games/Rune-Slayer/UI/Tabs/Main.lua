@@ -2,8 +2,11 @@ local Main = {
     Sections = {};
 }
 
-function GetFeature(Path)
-    local ModulePath = directRequire(string.format("Files/Games/%s/Features/%s", "Rune-Slayer", Path))
+function GetFeature(Feature)
+    local ModulePath = require(("Files/Games/%s/Features/%s"):format(
+        "Rune-Slayer", Feature
+    ))
+
     return ModulePath
 end
 
