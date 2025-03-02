@@ -130,7 +130,7 @@ function Loader:Load(Time)
 
     NewTween:Play()
 
-    return NewTween
+    return NewTween.Completed
 end
 
 function Loader:Remove(Time)
@@ -169,7 +169,7 @@ function Loader:Remove(Time)
 
     NewTween:Play()
 
-    return NewTween
+    return NewTween.Completed
 end
 
 function Loader:Destroy()
