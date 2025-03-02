@@ -15,7 +15,7 @@ getgenv().GetService = function(Service)
 end
 
 getgenv().require = function(Path)
-    if (typeof(Path) ~= "string") then
+    if (typeof(Path) ~= "string" and setthreadcontext ~= nil) then -- // setthreadidentity to check if the executor is a low level one
         return OldRequire(Path)
     end
 

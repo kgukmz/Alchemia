@@ -12,13 +12,11 @@ end, function(Error)
 end)
 
 local LoaderModule = require("Files/Modules/LoaderUI.lua")
-local WebhookModule = require("Files/Modules/Webhook.lua")
 local GameList = require("Files/GameList.json")
 local UILibrary = require("UILibrary.lua")
 
-local NewLoader = LoaderModule.new("ALCHEMIA LOADER", "Wait...")
-NewLoader:FadeIn(0.5)
-NewLoader:ChangeAction("Setting up")
+local Loader_UI = LoaderModule.new("ALCHEMIA LOADER", "Setting up")
+Loader_UI:Load(0.5)
 
 local Players = GetService("Players")
 
@@ -32,8 +30,6 @@ local UserData = {}; do
     UserData.PlaceId = PlaceId
     UserData.JobId = JobId
 end
-
-NewLoader:ChangeAction("Checking game")
 
 local GameName = GameList[tostring(PlaceId)]
 
@@ -50,10 +46,11 @@ if (GameName ~= nil) then
     print("Found")
 end
 
-NewLoader:ChangeAction("All done")
+Loader_UI:ChangeAction("All done")
+task.delay(0.15, function()
+    local OnRemove = Loader_UI:Remove(0.45)
 
-local FadeOut = NewLoader:FadeOut(0.5)
-FadeOut.Completed:Connect(function()
-    NewLoader:Destroy()
-    task.delay(0.15, UILibrary.Init, UILibrary)
+    OnRemove:Connect(function()
+        task.delay(0.15, UILibrary.Init, UILibrary)
+    end)
 end)

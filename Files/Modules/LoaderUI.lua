@@ -98,10 +98,12 @@ function Loader:ChangeAction(ActionText)
     self.ActionLabel.Text = ActionText
 end
 
-function Loader:FadeIn(Time)
+function Loader:Load(Time)
     if (self.ScreenGui == nil) then
         return
     end
+
+    Time = (Time or 0.5)
 
     for i, Object in next, self.ScreenGui:GetDescendants() do
         if (string.find(Object.ClassName, "UI")) then
@@ -131,10 +133,12 @@ function Loader:FadeIn(Time)
     return NewTween
 end
 
-function Loader:FadeOut(Time)
+function Loader:Remove(Time)
     if (self.ScreenGui == nil) then
         return
     end
+
+    Time = (Time or 0.5)
 
     for i, Object in next, self.ScreenGui:GetDescendants() do
         if (string.find(Object.ClassName, "UI")) then
@@ -158,6 +162,10 @@ function Loader:FadeOut(Time)
     local NewTween = TweenService:Create(self.ScreenGui.Frame, Tween_Info, {
         Position = UDim2.new(0.5, 0, 0.55, 0)
     })
+
+    NewTween.Completed:Connect(function()
+        self:Destroy()
+    end)
 
     NewTween:Play()
 
