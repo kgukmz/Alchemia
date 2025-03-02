@@ -1,69 +1,24 @@
-local ServiceCache = {}
-local ModuleCache = {}
-
-getgenv().GetService = function(Service)
-    if (ServiceCache[Service] ~= nil) then
-        return ServiceCache[Service]
-    end
-
-    local ServiceClone = cloneref(game:GetService(Service))
-    ServiceCache[Service] = ServiceClone
-
-    return ServiceClone
-end
-
-getgenv().directRequire = function(Path)
-    if (ModuleCache[Path] ~= nil) then
-        return ModuleCache[Path]
-    end
-
-    local FileExtension = string.match(Path, ".+%w+%p(%w+)")
-    local DirectoryRequest = http_request({
-        Url = "https://raw.githubusercontent.com/kgukmz/Alchemia/refs/heads/dev/" .. Path;
+xpcall(function()
+    local Request = http_request({
+        Url = "https://github.com/kgukmz/Alchemia/raw/refs/heads/dev/Files/Setup.lua";
         Method = "GET";
     })
-    
-    if (DirectoryRequest.Success == false) then
-        local Traceback = debug.traceback()
-        local StatusCode = DirectoryRequest.StatusCode
 
-        warn("Error retrieving path:", Path, StatusCode, Traceback)
-        return
-    end
+    loadstring(Request.Body, "Loader")()
+end, function(Error)
+    warn(("Error setting up: %s"):format(
+        Error
+    ))
+end)
 
-    local RequestBody = DirectoryRequest.Body
-
-    if (FileExtension ~= nil and FileExtension == "json") then
-        return GetService("HttpService"):JSONDecode(DirectoryRequest.Body)
-    end
-
-    local CachedModule = loadstring(RequestBody, Path)()
-    ModuleCache[Path] = CachedModule
-
-    return CachedModule
-end
-
-function SafeDirectRequire(...)
-    local Success, Result = pcall(directRequire, ...)
-
-    if (Success == false) then
-        warn("An error occured during requiring:", Result)
-        return nil
-    end
-
-    return Result
-end
-
-local LoaderModule = SafeDirectRequire("Files/Modules/LoaderUI.lua")
-local WebhookModule = SafeDirectRequire("Files/Modules/Webhook.lua")
-local GameList = SafeDirectRequire("Files/GameList.json")
-local UILibrary = SafeDirectRequire("UILibrary.lua")
+local LoaderModule = require("Files/Modules/LoaderUI.lua")
+local WebhookModule = require("Files/Modules/Webhook.lua")
+local GameList = require("Files/GameList.json")
+local UILibrary = require("UILibrary.lua")
 
 local NewLoader = LoaderModule.new("ALCHEMIA LOADER", "Wait...")
 NewLoader:FadeIn(0.5)
 NewLoader:ChangeAction("Setting up")
-
-SafeDirectRequire("Files/Setup.lua")
 
 local Players = GetService("Players")
 
@@ -71,23 +26,28 @@ local LocalPlayer = Players.LocalPlayer
 local PlaceId = game.PlaceId
 local JobId = game.JobId
 
-local UserData = {
-    PlayerName = LocalPlayer.Name;
-    UserId = LocalPlayer.UserId;
-    PlaceId = PlaceId;
-    JobId = JobId;
-}
+local UserData = {}; do
+    UserData.PlayerName = LocalPlayer.Name
+    UserData.UserId = LocalPlayer.UserId
+    UserData.PlaceId = PlaceId
+    UserData.JobId = JobId
+end
+
+NewLoader:ChangeAction("Checking game")
 
 local GameName = GameList[tostring(PlaceId)]
 
 if (GameName ~= nil) then
-    local MenuModule = SafeDirectRequire(string.format("Files/Games/%s/UI/Menu.lua", GameName))
+    local MenuModule = require(("Files/Games/%s/UI/Menu.lua"):format(GameName))
     local Success, Error = pcall(MenuModule.Setup, MenuModule, UILibrary)
 
     if (not Success) then
         warn(string.format("Unable to load menu for %s: [%s]", GameName, Error))
+        LoaderModule:ChangeAction(("Cannot load %s"):format(GameName))
         return
     end
+
+    print("Found")
 end
 
 NewLoader:ChangeAction("All done")

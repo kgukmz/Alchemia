@@ -2,17 +2,15 @@ local Menu = {
     Tabs = {}
 }
 
-local LocalPlayer = GetService("Players").LocalPlayer
-
 function AddTab(TabName)
     local Len = #Menu.Tabs
 
-    local TabModule = directRequire(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", TabName))
+    local TabModule = require(string.format("Files/Games/%s/UI/Tabs/%s", "Rune-Slayer", TabName))
     Menu.Tabs[Len + 1] = TabModule
 end
 
 function GetHookModule(Hook)
-    local Path = directRequire(string.format("Files/Games/%s/Features/Hooks/%s", "Rune-Slayer", Hook))
+    local Path = require(string.format("Files/Games/%s/Features/Hooks/%s", "Rune-Slayer", Hook))
 
     return Path
 end

@@ -3,9 +3,6 @@ local OldRequire = require
 local ServiceCache = {}
 local ModuleCache = {}
 
-local Github_API_Token = "dG9rZW4gZ2l0aHViX3BhdF8xMUJDTlJLVlkwYzF1RTRnUE1qajdSX1BLR2xwQnNjaE9hQXdKbE0xQ0JNRnM3Q2JFemxqa2VuODBCbmJlVFFPQVFBMktEUjdSTnhodHZrT1Vk"
-local Decoded = crypt.base64.decode(Github_API_Token)
-
 getgenv().GetService = function(Service)
     if (ServiceCache[Service] ~= nil) then
         return ServiceCache[Service]
@@ -17,69 +14,37 @@ getgenv().GetService = function(Service)
     return ServiceClone
 end
 
-local HttpService = GetService("HttpService")
-
-getgenv().require = function(File, Folder)
-    if (typeof(File) ~= "string") then
-        return OldRequire(File)
+getgenv().require = function(Path)
+    if (typeof(Path) ~= "string") then
+        return OldRequire(Path)
     end
 
-    if (ModuleCache[File] ~= nil) then
-        return ModuleCache[File]
+    if (ModuleCache[Path] ~= nil) then
+        return ModuleCache[Path]
     end
 
-    local RepoAPI = "https://api.github.com/repos/kgukmz/Alchemia/contents/"
-    local RetrieveAPI = http_request({
-        Url = RepoAPI,
+    local FileExtension = string.match(Path, ".+%w+%p(%w+)")
+    local DirectoryRequest = http_request({
+        Url = "https://raw.githubusercontent.com/kgukmz/Alchemia/refs/heads/dev/" .. Path;
         Method = "GET";
-        Headers = {
-            ["Authorization"] = Decoded;
-        }
     })
     
-    local ContentsDecoded = HttpService:JSONDecode(RetrieveAPI.Body)
-    local FileResult = nil
+    if (DirectoryRequest.Success == false) then
+        local Traceback = debug.traceback()
+        local StatusCode = DirectoryRequest.StatusCode
 
-    local function Look(Contents)
-        for i, Content in next, Contents do
-            if (FileResult ~= nil) then
-                break
-            end
-
-            local ContentName = Content.name
-            local ContentType = Content.type
-            local ContentUrl = Content.url
-
-            if (ContentType == "file" and ContentName == File ) then
-                FileResult = Content.download_url
-                break
-            end
-
-            if (ContentType == "dir") then
-                local NewContentRequest = http_request({
-                    Url = ContentUrl;
-                    Method = "GET";
-                    Headers = {
-                        ["Authorization"] = Decoded;
-                    };
-                })
-
-                local ContentDecoded = HttpService:JSONDecode(NewContentRequest.Body)
-                Look(ContentDecoded)
-            end
-        end
-    end
-
-    Look(ContentsDecoded)
-
-    if (FileResult == nil) then
-        warn("Unable to retrieve file:", File, "most likely does not exist or the folder was incorrect")
+        warn("Error retrieving path:", Path, StatusCode, Traceback)
         return
     end
 
-    -- Load the content of the file
-    local FileContent = loadstring(game:HttpGet(FileResult), "Alchemia")
-    ModuleCache[File] = FileContent
-    
-    return FileContent
+    local RequestBody = DirectoryRequest.Body
+
+    if (FileExtension ~= nil and FileExtension == "json") then
+        return GetService("HttpService"):JSONDecode(DirectoryRequest.Body)
+    end
+
+    local CachedModule = loadstring(RequestBody, Path)()
+    ModuleCache[Path] = CachedModule
+
+    return CachedModule
 end

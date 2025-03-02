@@ -1,6 +1,6 @@
 local Movement = {}
 
-local MaidModule = directRequire("Files/Modules/Maid.lua")
+local MaidModule = require("Files/Modules/Maid.lua")
 
 local CollectionService = GetService("CollectionService")
 local RunService = GetService("RunService")
