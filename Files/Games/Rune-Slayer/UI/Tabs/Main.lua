@@ -29,7 +29,7 @@ function Main.Sections:Movement(LibraryData)
     local MovementSection = LeftColumn:AddSection("Movement")
     
     local SpeedToggle = MovementSection:AddToggle({
-        text = "Speed";
+        text = "Speedhack";
         callback = Movement.Speedhack;
         tip = "Change your walkspeed [FIX LATER]";
         flag = "SpeedToggle";
@@ -56,6 +56,15 @@ function Main.Sections:Movement(LibraryData)
         min = 0;
         max = 200;
         flag = "InfiniteJumpSlider";
+    })
+
+    MovementSection:AddDivider("Options")
+
+    MovementSection:AddList({
+        text = "Speedhack Method";
+        values = {"Body Velocity"; "CFrame"};
+        default = "Body Velocity";
+        flag = "WalkspeedMethodList";
     })
 end
 

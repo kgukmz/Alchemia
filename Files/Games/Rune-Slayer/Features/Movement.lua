@@ -3,7 +3,6 @@ local Movement = {}
 local MaidModule = directRequire("Files/Modules/Maid.lua")
 
 local CollectionService = GetService("CollectionService")
-local Lighting = game:GetService("Lighting")
 local RunService = GetService("RunService")
 local Players = GetService("Players")
 local UserInputService = GetService("UserInputService")
